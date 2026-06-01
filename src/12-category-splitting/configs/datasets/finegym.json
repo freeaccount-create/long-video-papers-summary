@@ -1,0 +1,26 @@
+{
+    "class_name": "finegym",
+
+    "height": 256,
+    "width":320,
+    "short_side_size": 224,
+    "crop_size": 224,
+    "keep_aspect_ratio":true,
+    "num_frames":16,
+    "eval_num_segments":2,
+    "eval_num_crops":3,
+    "eval_batch_size": 32,
+
+    "num_workers": 10,
+    "pin_mem": true,
+    
+    "aug_args": {
+        "num_aug_examples": 2,
+        "aa": "rand-m7-n4-mstd0.5-inc1",
+        "train_interpolation": "bicubic",
+        "random_erase": true,
+        "reprob": 0.25,
+        "remode": "pixel",
+        "recount": 1
+    }
+}

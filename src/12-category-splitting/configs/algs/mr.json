@@ -1,0 +1,10 @@
+{
+    "class_name":"mr",
+    "zero_shot": true,
+    "init_args":{
+        "text_model": "CLIP",
+        "model": "ViT-L/14",
+        "alpha":0.5,
+        "beta":0.5
+    }
+}

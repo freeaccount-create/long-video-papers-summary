@@ -1,0 +1,8 @@
+{
+    "class_name":"vlm",
+    "zero_shot": true,
+    "init_args":{
+        "vlm_model": "CLIP",
+        "model": "ViT-L/14"
+    }
+}

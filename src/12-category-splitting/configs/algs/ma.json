@@ -1,0 +1,20 @@
+{
+    "class_name":"ma",
+    "zero_shot": true,
+    "init_args":{
+        "text_model": "CLIP",
+        "model":"ViT-L/14",
+        "mapping_function_hidden_layer_dims":[384]
+    },
+    "train_args": {
+        "batch_size":10,
+        "epochs":100,
+        "weight_decay":1e-3,
+        "lr": 1e-3,
+        "min_lr": 1e-6,
+        "early_stop":true,
+        "ema_beta":0.9,
+        "ema_patience":3,
+        "ema_min_delta":1e-3
+    }
+}

@@ -1,0 +1,13 @@
+# Ignore output and checkpoint directories
+output/
+checkpoints/
+
+# Python cache and compiled files
+__pycache__/
+*.pyc
+
+# Python virtual environment
+.env/
+
+# Python package info
+*.egg-info/

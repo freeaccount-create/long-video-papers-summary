@@ -1,0 +1,13 @@
+{
+    "class_name": "mvd",
+    "model_key":  "model|module",
+    "init_args": {
+        "model": "vit_small_patch16_224",
+        "num_classes": 162,
+        "img_size": 224,
+        "tubelet_size":2,
+        "num_frames":16,
+        "use_cls_token": false,
+        "use_mean_pooling": true
+    }
+}

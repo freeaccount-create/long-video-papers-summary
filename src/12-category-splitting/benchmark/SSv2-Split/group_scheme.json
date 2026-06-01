@@ -1,0 +1,369 @@
+{
+    "group_scheme": {
+        "Moving the camera and Turning the camera": [
+            "Approaching something with your camera",
+            "Moving away from something with your camera",
+            "Turning the camera downwards while filming something",
+            "Turning the camera left while filming something",
+            "Turning the camera right while filming something",
+            "Turning the camera upwards while filming something"
+        ],
+        "Attaching something to something and Trying but failing to attach something to something because it doesn't stick": [
+            "Attaching something to something",
+            "Trying but failing to attach something to something because it doesn't stick"
+        ],
+        "Bending something": [
+            "Bending something so that it deforms",
+            "Bending something until it breaks",
+            "Trying to bend something unbendable so nothing happens"
+        ],
+        "Burying something in something and Digging something out of something": [
+            "Burying something in something",
+            "Digging something out of something"
+        ],
+        "Closing something and Opening something": [
+            "Closing something",
+            "Opening something"
+        ],
+        "Covering something with something and Uncovering something": [
+            "Covering something with something",
+            "Uncovering something"
+        ],
+        "Dropping something with spatial relation": [
+            "Dropping something behind something",
+            "Dropping something in front of something",
+            "Dropping something into something",
+            "Dropping something next to something",
+            "Dropping something onto something"
+        ],
+        "Failing to put something into something because something does not fit": [
+            "Failing to put something into something because something does not fit"
+        ],
+        "Folding something and Unfolding something": [
+            "Folding something",
+            "Unfolding something"
+        ],
+        "Hitting something with something": [
+            "Hitting something with something"
+        ],
+        "Holding something": [
+            "Holding something"
+        ],
+        "Holding something with spatial relation": [
+            "Holding something behind something",
+            "Holding something in front of something",
+            "Holding something next to something",
+            "Holding something over something"
+        ],
+        "Putting something on the table": [
+            "Laying something on the table on its side, not upright",
+            "Putting something similar to other things that are already on the table",
+            "Putting something that cannot actually stand upright upright on the table, so it falls on its side",
+            "Putting something upright on the table"
+        ],
+        "Letting something roll": [
+            "Letting something roll along a flat surface",
+            "Letting something roll down a slanted surface",
+            "Letting something roll up a slanted surface, so it rolls back down"
+        ],
+        "Lifting a surface with something on it": [
+            "Lifting a surface with something on it but not enough for it to slide down",
+            "Lifting a surface with something on it until it starts sliding down"
+        ],
+        "Lifting something up completely": [
+            "Lifting something up completely without letting it drop down",
+            "Lifting something up completely, then letting it drop down"
+        ],
+        "Lifting something with something on it": [
+            "Lifting something with something on it"
+        ],
+        "Lifting up one end of something": [
+            "Lifting up one end of something without letting it drop down",
+            "Lifting up one end of something, then letting it drop down"
+        ],
+        "Moving part of something": [
+            "Moving part of something"
+        ],
+        "Moving something across a surface": [
+            "Moving something across a surface until it falls down",
+            "Moving something across a surface without it falling down"
+        ],
+        "Moving something and something": [
+            "Moving something and something away from each other",
+            "Moving something and something closer to each other",
+            "Moving something and something so they collide with each other",
+            "Moving something and something so they pass each other"
+        ],
+        "Moving something": [
+            "Moving something away from something",
+            "Moving something away from the camera",
+            "Moving something closer to something",
+            "Moving something down",
+            "Moving something towards the camera",
+            "Moving something up"
+        ],
+        "Picking something up and Pretending to pick something up": [
+            "Picking something up",
+            "Pretending to pick something up"
+        ],
+        "Piling something up and Stacking number of something": [
+            "Piling something up",
+            "Stacking number of something"
+        ],
+        "Plugging something into something and Plugging something into something but pulling it right out as you remove your hand": [
+            "Plugging something into something",
+            "Plugging something into something but pulling it right out as you remove your hand"
+        ],
+        "Poking a hole": [
+            "Poking a hole into some substance",
+            "Poking a hole into something soft"
+        ],
+        "Poking a stack of something": [
+            "Poking a stack of something so the stack collapses",
+            "Poking a stack of something without the stack collapsing"
+        ],
+        "Poking something": [
+            "Poking something so it slightly moves",
+            "Poking something so lightly that it doesn't or almost doesn't move",
+            "Poking something so that it falls over",
+            "Poking something so that it spins around"
+        ],
+        "Pouring something": [
+            "Pouring something into something",
+            "Pouring something into something until it overflows",
+            "Pouring something onto something",
+            "Pouring something out of something",
+            "Pretending to pour something out of something, but something is empty",
+            "Trying to pour something into something, but missing so it spills next to it"
+        ],
+        "Pretending or failing to wipe something off of something and Wiping something off of something": [
+            "Pretending or failing to wipe something off of something",
+            "Wiping something off of something"
+        ],
+        "Twisting something, Twisting (wringing) something wet until water comes out and Pretending or trying and failing to twist something": [
+            "Pretending or trying and failing to twist something",
+            "Twisting (wringing) something wet until water comes out",
+            "Twisting something"
+        ],
+        "Tearing something": [
+            "Pretending to be tearing something that is not tearable",
+            "Tearing something into two pieces",
+            "Tearing something just a little bit"
+        ],
+        "Pretending to close something without actually closing it and Pretending to open something without actually opening it": [
+            "Pretending to close something without actually closing it",
+            "Pretending to open something without actually opening it"
+        ],
+        "Pretending to poke something": [
+            "Pretending to poke something"
+        ],
+        "Pretending to put something with spatial relation": [
+            "Pretending to put something behind something",
+            "Pretending to put something into something",
+            "Pretending to put something next to something",
+            "Pretending to put something on a surface",
+            "Pretending to put something onto something",
+            "Pretending to put something underneath something"
+        ],
+        "Pretending to scoop something up with something and Scooping something up with something": [
+            "Pretending to scoop something up with something",
+            "Scooping something up with something"
+        ],
+        "Pretending to spread air onto something and Spreading something onto something": [
+            "Pretending to spread air onto something",
+            "Spreading something onto something"
+        ],
+        "Pretending to sprinkle air onto something and Sprinkling something onto something": [
+            "Pretending to sprinkle air onto something",
+            "Sprinkling something onto something"
+        ],
+        "Pretending to squeeze something and Squeezing something": [
+            "Pretending to squeeze something",
+            "Squeezing something"
+        ],
+        "Pretending to take something from somewhere and Taking something from somewhere": [
+            "Pretending to take something from somewhere",
+            "Taking something from somewhere"
+        ],
+        "Pretending to take something out of something and Taking something out of something": [
+            "Pretending to take something out of something",
+            "Taking something out of something"
+        ],
+        "Pretending to throw something and Throwing something": [
+            "Pretending to throw something",
+            "Throwing something"
+        ],
+        "Pretending to turn something upside down and Turning something upside down": [
+            "Pretending to turn something upside down",
+            "Turning something upside down"
+        ],
+        "Pulling something": [
+            "Pulling something from behind of something",
+            "Pulling something from left to right",
+            "Pulling something from right to left",
+            "Pulling something onto something",
+            "Pulling something out of something"
+        ],
+        "Pulling two ends of something": [
+            "Pulling two ends of something but nothing happens",
+            "Pulling two ends of something so that it gets stretched",
+            "Pulling two ends of something so that it separates into two pieces"
+        ],
+        "Pushing something": [
+            "Pushing something from left to right",
+            "Pushing something from right to left",
+            "Pushing something off of something",
+            "Pushing something onto something",
+            "Pushing something so it spins",
+            "Pushing something so that it almost falls off but doesn't",
+            "Pushing something so that it falls off the table",
+            "Pushing something so that it slightly moves",
+            "Pushing something with something"
+        ],
+        "Putting multiple things": [
+            "Putting number of something onto something",
+            "Putting something and something on the table",
+            "Putting something, something and something on the table"
+        ],
+        "Putting something with spatial relation": [
+            "Putting something behind something",
+            "Putting something in front of something",
+            "Putting something into something",
+            "Putting something next to something",
+            "Putting something onto something",
+            "Putting something underneath something"
+        ],
+        "Putting something on a surface or onto something": [
+            "Putting something on a flat surface without letting it roll",
+            "Putting something on a surface",
+            "Putting something on the edge of something so it is not supported and falls down",
+            "Putting something onto a slanted surface but it doesn't glide down",
+            "Putting something onto something else that cannot support it so it falls down"
+        ],
+        "Putting something that can't roll onto a slanted surface": [
+            "Putting something that can't roll onto a slanted surface, so it slides down",
+            "Putting something that can't roll onto a slanted surface, so it stays where it is"
+        ],
+        "Removing something, revealing something behind": [
+            "Removing something, revealing something behind"
+        ],
+        "Rolling something on a flat surface": [
+            "Rolling something on a flat surface"
+        ],
+        "Showing something's properties": [
+            "Showing a photo of something to the camera",
+            "Showing that something is empty",
+            "Showing that something is inside something"
+        ],
+        "Showing something with spatial relation": [
+            "Showing something behind something",
+            "Showing something next to something",
+            "Showing something on top of something"
+        ],
+        "Showing something to the camera": [
+            "Showing something to the camera"
+        ],
+        "Something colliding with something": [
+            "Something being deflected from something",
+            "Something colliding with something and both are being deflected",
+            "Something colliding with something and both come to a halt"
+        ],
+        "Something falling": [
+            "Something falling like a feather or paper",
+            "Something falling like a rock"
+        ],
+        "Spilling something with spatial relation": [
+            "Spilling something behind something",
+            "Spilling something next to something",
+            "Spilling something onto something"
+        ],
+        "Spinning something": [
+            "Spinning something so it continues spinning",
+            "Spinning something that quickly stops spinning"
+        ],
+        "Stuffing something into something": [
+            "Stuffing something into something"
+        ],
+        "Taking one of many similar things on the table": [
+            "Taking one of many similar things on the table"
+        ],
+        "Throwing something toward something": [
+            "Throwing something against something",
+            "Throwing something onto a surface"
+        ],
+        "Throwing something in the air": [
+            "Throwing something in the air and catching it",
+            "Throwing something in the air and letting it fall"
+        ],
+        "Tilting something with something on it": [
+            "Tilting something with something on it slightly so it doesn't fall down",
+            "Tilting something with something on it until it falls off"
+        ],
+        "Tipping something over and Tipping something with something in it over, so something in it falls out": [
+            "Tipping something over",
+            "Tipping something with something in it over, so something in it falls out"
+        ],
+        "Touching (without moving) part of something": [
+            "Touching (without moving) part of something"
+        ]
+    },
+    "A": [
+        "Attaching something to something and Trying but failing to attach something to something because it doesn't stick",
+        "Bending something",
+        "Burying something in something and Digging something out of something",
+        "Closing something and Opening something",
+        "Dropping something with spatial relation",
+        "Letting something roll",
+        "Lifting a surface with something on it",
+        "Lifting something up completely",
+        "Moving something and something",
+        "Picking something up and Pretending to pick something up",
+        "Poking a stack of something",
+        "Twisting something, Twisting (wringing) something wet until water comes out and Pretending or trying and failing to twist something",
+        "Pretending to put something with spatial relation",
+        "Pretending to spread air onto something and Spreading something onto something",
+        "Pretending to squeeze something and Squeezing something",
+        "Pushing something",
+        "Putting multiple things",
+        "Putting something on the table",
+        "Putting something on a surface or onto something",
+        "Showing something with spatial relation",
+        "Something falling",
+        "Spinning something",
+        "Pretending to take something from somewhere and Taking something from somewhere",
+        "Tearing something",
+        "Throwing something in the air",
+        "Tilting something with something on it",
+        "Something colliding with something"
+    ],
+    "B": [
+        "Moving the camera and Turning the camera",
+        "Covering something with something and Uncovering something",
+        "Holding something with spatial relation",
+        "Folding something and Unfolding something",
+        "Lifting up one end of something",
+        "Moving something across a surface",
+        "Moving something",
+        "Piling something up and Stacking number of something",
+        "Plugging something into something and Plugging something into something but pulling it right out as you remove your hand",
+        "Poking a hole",
+        "Pouring something",
+        "Pretending or failing to wipe something off of something and Wiping something off of something",
+        "Pretending to close something without actually closing it and Pretending to open something without actually opening it",
+        "Pretending to scoop something up with something and Scooping something up with something",
+        "Pretending to sprinkle air onto something and Sprinkling something onto something",
+        "Pretending to turn something upside down and Turning something upside down",
+        "Pulling something",
+        "Pulling two ends of something",
+        "Putting something with spatial relation",
+        "Putting something that can't roll onto a slanted surface",
+        "Showing something's properties",
+        "Spilling something with spatial relation",
+        "Pretending to take something out of something and Taking something out of something",
+        "Pretending to throw something and Throwing something",
+        "Throwing something toward something",
+        "Tipping something over and Tipping something with something in it over, so something in it falls out",
+        "Poking something"
+    ]
+}
+   

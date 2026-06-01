@@ -1,0 +1,830 @@
+{
+  "(VT) round-off, flic-flac with 0.5 turn on, salto forward": {
+    "(VT) round-off, flic-flac with 0.5 turn on, salto forward": {
+      "modifier": "",
+      "index": 0
+    }
+  },
+  "(VT) round-off, flic-flac with 1 turn on, salto backward": {
+    "(VT) round-off, flic-flac with 1 turn on, salto backward": {
+      "modifier": "",
+      "index": 2
+    }
+  },
+  "(VT) handspring forward on, salto forward": {
+    "(VT) handspring forward on, salto forward": {
+      "modifier": "",
+      "index": 20
+    }
+  },
+  "(FX) leap": {
+    "(FX) leap": {
+      "modifier": "",
+      "index": 29
+    }
+  },
+  "(FX) jump or hop": {
+    "(FX) jump or hop": {
+      "modifier": "",
+      "index": 33
+    }
+  },
+  "(FX) 3 turn": {
+    "(FX) 3 turn": {
+      "modifier": "",
+      "index": 50
+    }
+  },
+  "(FX) 2 turn or more": {
+    "(FX) 2 turn or more": {
+      "modifier": "",
+      "index": 51
+    }
+  },
+  "(FX) take-off forward from one or both legs, salto sideward tucked and (FX) aerial cartwheel": {
+    "(FX) take-off forward from one or both legs, salto sideward tucked and (FX) aerial cartwheel": {
+      "modifier": "",
+      "index": 59
+    }
+  },
+  "(FX) arabian double salto": {
+    "(FX) arabian double salto": {
+      "modifier": "",
+      "index": 60
+    }
+  },
+  "(FX) salto forward": {
+    "(FX) salto forward": {
+      "modifier": "",
+      "index": 61
+    }
+  },
+  "(BB) ring and arch jump": {
+    "(BB) ring and arch jump": {
+      "modifier": "",
+      "index": 82
+    }
+  },
+  "(BB) wolf hop or jump and cat leap": {
+    "(BB) wolf hop or jump and cat leap": {
+      "modifier": "",
+      "index": 106
+    }
+  },
+  "(BB) turns with free leg at horizontal and turns with free leg optional below horizontal": {
+    "(BB) turns with free leg at horizontal and turns with free leg optional below horizontal": {
+      "modifier": "",
+      "index": 110
+    }
+  },
+  "(BB) salto backward": {
+    "(BB) salto backward": {
+      "modifier": "",
+      "index": 116
+    }
+  },
+  "(BB) free aerial": {
+    "(BB) free aerial": {
+      "modifier": "",
+      "index": 119
+    }
+  },
+  "(BB) salto forward tucked": {
+    "(BB) salto forward tucked": {
+      "modifier": "",
+      "index": 134
+    }
+  },
+  "(BB) salto stretched": {
+    "(BB) salto stretched": {
+      "modifier": "",
+      "index": 136
+    }
+  },
+  "(BB) gainer salto": {
+    "(BB) gainer salto": {
+      "modifier": "",
+      "index": 143
+    }
+  },
+  "(UB) circle backward without turn": {
+    "(UB) circle backward without turn": {
+      "modifier": "",
+      "index": 147
+    }
+  },
+  "(UB) circle forward with turn": {
+    "(UB) circle forward with turn": {
+      "modifier": "",
+      "index": 148
+    }
+  },
+  "(UB) hang on high bar": {
+    "(UB) hang on high bar": {
+      "modifier": "",
+      "index": 168
+    }
+  },
+  "(UB) transition flight": {
+    "(UB) transition flight": {
+      "modifier": "",
+      "index": 169
+    }
+  },
+  "(UB) (swing forward) double salto backward": {
+    "(UB) (swing forward) double salto backward": {
+      "modifier": "",
+      "index": 170
+    }
+  },
+  "(VT) round-off, flic-flac with 0.5 turn on, 0.5 turn to piked salto backward off": {
+    "(VT) round-off, flic-flac with 0.5 turn on, 0.5 turn to piked salto backward off": {
+      "modifier": "",
+      "index": 1
+    }
+  },
+  "(VT) round-off, flic-flac on, salto backward": {
+    "(VT) round-off, flic-flac on, stretched salto backward with 2 turn off": {
+      "modifier": "stretched salto backward with 2 turn off",
+      "index": 3
+    },
+    "(VT) round-off, flic-flac on, stretched salto backward with 1 turn off": {
+      "modifier": "stretched salto backward with 1 turn off",
+      "index": 4
+    },
+    "(VT) round-off, flic-flac on, stretched salto backward with 1.5 turn off": {
+      "modifier": "stretched salto backward with 1.5 turn off",
+      "index": 5
+    },
+    "(VT) round-off, flic-flac on, stretched salto backward with 0.5 turn off": {
+      "modifier": "stretched salto backward with 0.5 turn off",
+      "index": 6
+    },
+    "(VT) round-off, flic-flac on, stretched salto backward with 2.5 turn off": {
+      "modifier": "stretched salto backward with 2.5 turn off",
+      "index": 7
+    },
+    "(VT) round-off, flic-flac on, stretched salto backward off": {
+      "modifier": "stretched salto backward off",
+      "index": 8
+    },
+    "(VT) round-off, flic-flac on, piked salto backward off": {
+      "modifier": "piked salto backward off",
+      "index": 9
+    },
+    "(VT) round-off, flic-flac on, tucked salto backward off": {
+      "modifier": "tucked salto backward off",
+      "index": 10
+    }
+  },
+  "(VT) tsukahara": {
+    "(VT) tsukahara stretched with 2 turn": {
+      "modifier": "stretched with 2 turn",
+      "index": 11
+    },
+    "(VT) tsukahara stretched with 1 turn": {
+      "modifier": "stretched with 1 turn",
+      "index": 12
+    },
+    "(VT) tsukahara stretched with 1.5 turn": {
+      "modifier": "stretched with 1.5 turn",
+      "index": 13
+    },
+    "(VT) tsukahara stretched with 0.5 turn": {
+      "modifier": "stretched with 0.5 turn",
+      "index": 14
+    },
+    "(VT) tsukahara stretched salto": {
+      "modifier": "stretched salto",
+      "index": 15
+    },
+    "(VT) tsukahara stretched without salto": {
+      "modifier": "stretched without salto",
+      "index": 16
+    },
+    "(VT) tsukahara piked": {
+      "modifier": "piked",
+      "index": 17
+    },
+    "(VT) tsukahara tucked with 1 turn": {
+      "modifier": "tucked with 1 turn",
+      "index": 18
+    },
+    "(VT) tsukahara tucked": {
+      "modifier": "tucked",
+      "index": 19
+    }
+  },
+  "(VT) handspring forward on": {
+    "(VT) handspring forward on, 1.5 turn off": {
+      "modifier": "1.5 turn off",
+      "index": 21
+    },
+    "(VT) handspring forward on, 1 turn off": {
+      "modifier": "1 turn off",
+      "index": 22
+    },
+    "(VT) handspring forward on, no turn off": {
+      "modifier": "no turn off",
+      "index": 23
+    }
+  },
+  "(FX) leap with turn": {
+    "(FX) switch leap with 0.5 turn": {
+      "modifier": "switch leap with 0.5 turn",
+      "index": 24
+    },
+    "(FX) switch leap with 1 turn": {
+      "modifier": "switch leap with 1 turn",
+      "index": 25
+    },
+    "(FX) split leap with 0.5 turn": {
+      "modifier": "split leap with 0.5 turn",
+      "index": 26
+    },
+    "(FX) split leap with 1 turn": {
+      "modifier": "split leap with 1 turn",
+      "index": 27
+    },
+    "(FX) split leap with 1.5 turn or more": {
+      "modifier": "split leap with 1.5 turn or more",
+      "index": 28
+    },
+    "(FX) johnson with additional 0.5 turn": {
+      "modifier": "johnson with additional 0.5 turn",
+      "index": 34
+    },
+    "(FX) switch leap to ring position with 1 turn": {
+      "modifier": "switch leap to ring position with 1 turn",
+      "index": 37
+    },
+    "(FX) split leap with 1 turn or more to ring position": {
+      "modifier": "split leap with 1 turn or more to ring position",
+      "index": 38
+    },
+    "(FX) cat leap with 2 turn": {
+      "modifier": "cat leap with 2 turn",
+      "index": 46
+    }
+  },
+  "(FX) jump or hop with turn": {
+    "(FX) split jump with 1 turn": {
+      "modifier": "split jump with 1 turn",
+      "index": 30
+    },
+    "(FX) split jump with 0.5 turn": {
+      "modifier": "split jump with 0.5 turn",
+      "index": 31
+    },
+    "(FX) split jump with 1.5 turn": {
+      "modifier": "split jump with 1.5 turn",
+      "index": 32
+    },
+    "(FX) straddle pike or side split jump with 1 turn": {
+      "modifier": "straddle pike or side split jump with 1 turn",
+      "index": 35
+    },
+    "(FX) straddle pike or side split jump with 0.5 turn": {
+      "modifier": "straddle pike or side split jump with 0.5 turn",
+      "index": 36
+    },
+    "(FX) split jump with 1 turn or more to ring position": {
+      "modifier": "split jump with 1 turn or more to ring position",
+      "index": 39
+    },
+    "(FX) stag jump with 0.5 turn": {
+      "modifier": "stag jump with 0.5 turn",
+      "index": 40
+    },
+    "(FX) tuck hop or jump with 1 turn": {
+      "modifier": "tuck hop or jump with 1 turn",
+      "index": 41
+    },
+    "(FX) tuck hop or jump with 2 turn": {
+      "modifier": "tuck hop or jump with 2 turn",
+      "index": 42
+    },
+    "(FX) stretched hop or jump with 1 turn": {
+      "modifier": "stretched hop or jump with 1 turn",
+      "index": 43
+    },
+    "(FX) pike jump with 1 turn": {
+      "modifier": "pike jump with 1 turn",
+      "index": 44
+    },
+    "(FX) wolf hop or jump with 1 turn": {
+      "modifier": "wolf hop or jump with 1 turn",
+      "index": 45
+    },
+    "(FX) hop with 0.5 turn free leg extended above horizontal throughout": {
+      "modifier": "hop with 0.5 turn free leg extended above horizontal throughout",
+      "index": 47
+    },
+    "(FX) hop with 1 turn free leg extended above horizontal throughout": {
+      "modifier": "hop with 1 turn free leg extended above horizontal throughout",
+      "index": 48
+    }
+  },
+  "(FX) 1 turn": {
+    "(FX) illusion 1 turn through standing split": {
+      "modifier": "illusion 1 turn through standing split",
+      "index": 49
+    },
+    "(FX) 1 turn with free leg held upward in 180 split position throughout turn": {
+      "modifier": "with free leg held upward in 180 split position throughout turn",
+      "index": 52
+    },
+    "(FX) 1 turn in tuck stand on one leg, free leg optional": {
+      "modifier": "in tuck stand on one leg, free leg optional",
+      "index": 53
+    },
+    "(FX) 1 turn in back attitude, knee of free leg at horizontal throughout turn": {
+      "modifier": "in back attitude, knee of free leg at horizontal throughout turn",
+      "index": 55
+    },
+    "(FX) 1 turn on one leg, free leg optional below horizontal": {
+      "modifier": "on one leg, free leg optional below horizontal",
+      "index": 57
+    },
+    "(FX) 1 turn with heel of free leg forward at horizontal throughout turn": {
+      "modifier": "with heel of free leg forward at horizontal throughout turn",
+      "index": 58
+    }
+  },
+  "(FX) 1 spin or less on back in kip position, hip and leg are closed": {
+    "(FX) 1 spin or less on back in kip position, hip and leg are closed": {
+      "modifier": "",
+      "index": 54
+    }
+  },
+  "(FX) 4 turn on one leg, free leg optional below horizontal": {
+    "(FX) 4 turn on one leg, free leg optional below horizontal": {
+      "modifier": "",
+      "index": 56
+    }
+  },
+  "(FX) aerial walkover forward": {
+    "(FX) aerial walkover forward": {
+      "modifier": "",
+      "index": 62
+    }
+  },
+  "(FX) salto backward": {
+    "(FX) double salto backward stretched with 2 twist": {
+      "modifier": "double salto backward stretched with 2 twist",
+      "index": 63
+    },
+    "(FX) double salto backward stretched with 1 twist": {
+      "modifier": "double salto backward stretched with 1 twist",
+      "index": 64
+    },
+    "(FX) double salto backward stretched with 0.5 twist": {
+      "modifier": "double salto backward stretched with 0.5 twist",
+      "index": 65
+    },
+    "(FX) double salto backward stretched": {
+      "modifier": "double salto backward stretched",
+      "index": 66
+    },
+    "(FX) salto backward stretched with 3 twist": {
+      "modifier": "stretched with 3 twist",
+      "index": 67
+    },
+    "(FX) salto backward stretched with 2 twist": {
+      "modifier": "stretched with 2 twist",
+      "index": 68
+    },
+    "(FX) salto backward stretched with 1 twist": {
+      "modifier": "stretched with 1 twist",
+      "index": 69
+    },
+    "(FX) salto backward stretched": {
+      "modifier": "stretched",
+      "index": 70
+    },
+    "(FX) salto backward stretched with 3.5 twist": {
+      "modifier": "stretched with 3.5 twist",
+      "index": 71
+    },
+    "(FX) salto backward stretched with 2.5 twist": {
+      "modifier": "stretched with 2.5 twist",
+      "index": 72
+    },
+    "(FX) salto backward stretched with 1.5 twist": {
+      "modifier": "stretched with 1.5 twist",
+      "index": 73
+    },
+    "(FX) salto backward stretched with 0.5 twist": {
+      "modifier": "stretched with 0.5 twist",
+      "index": 74
+    },
+    "(FX) double salto backward tucked with 2 twist": {
+      "modifier": "double salto backward tucked with 2 twist",
+      "index": 75
+    },
+    "(FX) double salto backward tucked with 1 twist": {
+      "modifier": "double salto backward tucked with 1 twist",
+      "index": 76
+    },
+    "(FX) double salto backward tucked": {
+      "modifier": "double salto backward tucked",
+      "index": 77
+    },
+    "(FX) salto backward tucked": {
+      "modifier": "tucked",
+      "index": 78
+    },
+    "(FX) double salto backward piked with 1 twist": {
+      "modifier": "double salto backward piked with 1 twist",
+      "index": 79
+    },
+    "(FX) double salto backward piked": {
+      "modifier": "double salto backward piked",
+      "index": 80
+    },
+    "(FX) whip salto backward": {
+      "modifier": "whip salto backward",
+      "index": 81
+    }
+  },
+  "(BB) split and straddle jump": {
+    "(BB) sissone (leg separation 180 degree on the diagonal to the floor, take off two feet, land on one foot)": {
+      "modifier": "sissone (leg separation 180 degree on the diagonal to the floor, take off two feet, land on one foot)",
+      "index": 83
+    },
+    "(BB) split jump with 0.5 turn in side position": {
+      "modifier": "split jump with 0.5 turn in side position",
+      "index": 84
+    },
+    "(BB) split jump with 0.5 turn": {
+      "modifier": "split jump with 0.5 turn",
+      "index": 85
+    },
+    "(BB) split jump with 1 turn": {
+      "modifier": "split jump with 1 turn",
+      "index": 86
+    },
+    "(BB) split jump": {
+      "modifier": "split jump",
+      "index": 87
+    },
+    "(BB) straddle pike jump with 0.5 turn in side position": {
+      "modifier": "straddle pike jump with 0.5 turn in side position",
+      "index": 88
+    },
+    "(BB) straddle pike jump with 0.5 turn": {
+      "modifier": "straddle pike jump with 0.5 turn",
+      "index": 89
+    },
+    "(BB) straddle pike jump with 1 turn": {
+      "modifier": "straddle pike jump with 1 turn",
+      "index": 90
+    },
+    "(BB) straddle pike jump or side split jump in side position": {
+      "modifier": "straddle pike jump or side split jump in side position",
+      "index": 91
+    },
+    "(BB) straddle pike jump or side split jump": {
+      "modifier": "straddle pike jump or side split jump",
+      "index": 92
+    },
+    "(BB) johnson with additional 0.5 turn": {
+      "modifier": "johnson with additional 0.5 turn",
+      "index": 99
+    },
+    "(BB) johnson (leap forward with leg change and 0.25 turn to side split or straddle pike position)": {
+      "modifier": "johnson (leap forward with leg change and 0.25 turn to side split or straddle pike position)",
+      "index": 100
+    }
+  },
+  "(BB) split and switch leap": {
+    "(BB) switch leap with 0.5 turn": {
+      "modifier": "switch leap with 0.5 turn",
+      "index": 93
+    },
+    "(BB) switch leap with 1 turn": {
+      "modifier": "switch leap with 1 turn",
+      "index": 94
+    },
+    "(BB) split leap with 1 turn": {
+      "modifier": "split leap with 1 turn",
+      "index": 95
+    },
+    "(BB) switch leap (leap forward with leg change)": {
+      "modifier": "switch leap (leap forward with leg change)",
+      "index": 96
+    },
+    "(BB) stag split leap forward": {
+      "modifier": "stag split leap forward",
+      "index": 97
+    },
+    "(BB) split leap forward": {
+      "modifier": "split leap forward",
+      "index": 98
+    },
+    "(BB) switch leap to ring position": {
+      "modifier": "switch leap to ring position",
+      "index": 101
+    }
+  },
+  "(BB) tuck hop or jump, pick jump and stretched hop or jump": {
+    "(BB) tuck hop or jump with 1 turn": {
+      "modifier": "tuck hop or jump with 1 turn",
+      "index": 102
+    },
+    "(BB) tuck hop or jump with 0.5 turn": {
+      "modifier": "tuck hop or jump with 0.5 turn",
+      "index": 103
+    },
+    "(BB) pike jump from cross position": {
+      "modifier": "pike jump from cross position",
+      "index": 104
+    },
+    "(BB) stretched jump/hop with 1 turn": {
+      "modifier": "stretched jump/hop with 1 turn",
+      "index": 105
+    }
+  },
+  "(BB) turn with legs in 180 split": {
+    "(BB) 1 illusion turn through standing split, 180 legs separation": {
+      "modifier": "1 illusion turn through standing split, 180 legs separation",
+      "index": 107
+    },
+    "(BB) 1.5 turn with free leg held upward in 180 split position throughout turn": {
+      "modifier": "1.5 turn with free leg held upward in 180 split position throughout turn",
+      "index": 108
+    },
+    "(BB) 1 turn with free leg held upward in 180 split position throughout turn": {
+      "modifier": "1 turn with free leg held upward in 180 split position throughout turn",
+      "index": 109
+    }
+  },
+  "(BB) turn in tuck": {
+    "(BB) 2.5 turn in tuck stand on one leg, free leg optional": {
+      "modifier": "2.5 turn in tuck stand on one leg, free leg optional",
+      "index": 111
+    },
+    "(BB) 1.5 turn in tuck stand on one leg, free leg optional": {
+      "modifier": "1.5 turn in tuck stand on one leg, free leg optional",
+      "index": 112
+    },
+    "(BB) 3 turn in tuck stand on one leg, free leg optional": {
+      "modifier": "3 turn in tuck stand on one leg, free leg optional",
+      "index": 113
+    },
+    "(BB) 2 turn in tuck stand on one leg, free leg optional": {
+      "modifier": "2 turn in tuck stand on one leg, free leg optional",
+      "index": 114
+    },
+    "(BB) 1 turn in tuck stand on one leg, free leg optional": {
+      "modifier": "1 turn in tuck stand on one leg, free leg optional",
+      "index": 115
+    }
+  },
+  "(BB) salto sideward tucked": {
+    "(BB) salto sideward tucked with 0.5 turn, take off from one leg to side stand": {
+      "modifier": "with 0.5 turn, take off from one leg to side stand",
+      "index": 117
+    },
+    "(BB) salto sideward tucked, take off from one leg to side stand": {
+      "modifier": "take off from one leg to side stand",
+      "index": 118
+    }
+  },
+  "(BB) arabian salto tucked (take-off backward with 0.5 twist, salto forward)": {
+    "(BB) arabian salto tucked (take-off backward with 0.5 twist, salto forward)": {
+      "modifier": "",
+      "index": 120
+    }
+  },
+  "(BB) salto forward piked to cross stand": {
+    "(BB) salto forward piked to cross stand": {
+      "modifier": "",
+      "index": 121
+    }
+  },
+  "(BB) flic-flac": {
+    "(BB) flic-flac with 1 twist, swing down to cross straddle sit": {
+      "modifier": "with 1 twist, swing down to cross straddle sit",
+      "index": 122
+    },
+    "(BB) flic-flac, swing down to cross straddle sit": {
+      "modifier": "swing down to cross straddle sit",
+      "index": 123
+    },
+    "(BB) gainer flic-flac, also with support on one arm": {
+      "modifier": "gainer flic-flac, also with support on one arm",
+      "index": 124
+    },
+    "(BB) flic-flac with 0.75 twist to side handstand, keep 2 seconds, lower to optional end position": {
+      "modifier": "with 0.75 twist to side handstand, keep 2 seconds, lower to optional end position",
+      "index": 125
+    },
+    "(BB) flic-flac with minimum 0.75 twist before hand support": {
+      "modifier": "with minimum 0.75 twist before hand support",
+      "index": 126
+    },
+    "(BB) jump backward, flic-flac take-off with 0.5 twist through handstand to walkover forward, also with support on one arm": {
+      "modifier": "jump backward, flic-flac take-off with 0.5 twist through handstand to walkover forward, also with support on one arm",
+      "index": 127
+    },
+    "(BB) flic-flac to land on both feet": {
+      "modifier": "land on both feet",
+      "index": 128
+    },
+    "(BB) flic-flac with step-out, also with support on one arm": {
+      "modifier": "with step-out, also with support on one arm",
+      "index": 129
+    }
+  },
+  "(BB) round-off": {
+    "(BB) round-off": {
+      "modifier": "",
+      "index": 130
+    }
+  },
+  "(BB) handspring forward with flight to land on one or both legs, also with support on one arm": {
+    "(BB) handspring forward with flight to land on one or both legs, also with support on one arm": {
+      "modifier": "",
+      "index": 131
+    }
+  },
+  "(BB) salto tucked": {
+    "(BB) arabian double salto forward tucked": {
+      "modifier": "arabian double salto forward tucked",
+      "index": 132
+    },
+    "(BB) salto forward tucked with 1 twist": {
+      "modifier": "salto forward tucked with 1 twist",
+      "index": 133
+    },
+    "(BB) salto forward tucked": {
+      "modifier": "salto forward tucked",
+      "index": 134
+    },
+    "(BB) double salto backward tucked with 1 twist": {
+      "modifier": "double salto backward tucked with 1 twist",
+      "index": 137
+    },
+    "(BB) double salto backward tucked": {
+      "modifier": "double salto backward tucked",
+      "index": 138
+    },
+    "(BB) salto backward tucked with 1 twist": {
+      "modifier": "salto backward tucked with 1 twist",
+      "index": 139
+    },
+    "(BB) salto backward tucked": {
+      "modifier": "salto backward tucked",
+      "index": 140
+    },
+    "(BB) salto backward tucked with 1.5 twist": {
+      "modifier": "salto backward tucked with 1.5 twist",
+      "index": 141
+    }
+  },
+  "(BB) salto forward piked": {
+    "(BB) salto forward piked": {
+      "modifier": "",
+      "index": 135
+    }
+  },
+  "(BB) double salto backward piked": {
+    "(BB) double salto backward piked": {
+      "modifier": "",
+      "index": 142
+    }
+  },
+  "(UB) circle backward with turn": {
+    "(UB) pike sole circle backward with 1.5 turn to handstand": {
+      "modifier": "pike sole circle backward with 1.5 turn to handstand",
+      "index": 144
+    },
+    "(UB) pike sole circle backward with 1 turn to handstand": {
+      "modifier": "pike sole circle backward with 1 turn to handstand",
+      "index": 145
+    },
+    "(UB) pike sole circle backward with 0.5 turn to handstand": {
+      "modifier": "pike sole circle backward with 0.5 turn to handstand",
+      "index": 146
+    },
+    "(UB) giant circle backward with 1.5 turn to handstand": {
+      "modifier": "giant circle backward with 1.5 turn to handstand",
+      "index": 149
+    },
+    "(UB) giant circle backward with hop 1 turn to handstand": {
+      "modifier": "giant circle backward with hop 1 turn to handstand",
+      "index": 150
+    },
+    "(UB) giant circle backward with 1 turn to handstand": {
+      "modifier": "giant circle backward with 1 turn to handstand",
+      "index": 151
+    },
+    "(UB) giant circle backward with 0.5 turn to handstand": {
+      "modifier": "giant circle backward with 0.5 turn to handstand",
+      "index": 152
+    },
+    "(UB) clear hip circle backward with 1 turn to handstand": {
+      "modifier": "clear hip circle backward with 1 turn to handstand",
+      "index": 154
+    },
+    "(UB) clear hip circle backward with 0.5 turn to handstand": {
+      "modifier": "clear hip circle backward with 0.5 turn to handstand",
+      "index": 155
+    },
+    "(UB) clear pike circle backward with 1 turn to handstand": {
+      "modifier": "clear pike circle backward with 1 turn to handstand",
+      "index": 157
+    },
+    "(UB) clear pike circle backward with 0.5 turn to handstand": {
+      "modifier": "clear pike circle backward with 0.5 turn to handstand",
+      "index": 158
+    },
+    "(UB) stalder backward with 1 turn to handstand": {
+      "modifier": "stalder backward with 1 turn to handstand",
+      "index": 160
+    },
+    "(UB) stalder backward with 0.5 turn to handstand": {
+      "modifier": "stalder backward with 0.5 turn to handstand",
+      "index": 161
+    }
+  },
+  "(UB) circle forward without turn": {
+    "(UB) giant circle forward": {
+      "modifier": "giant circle forward",
+      "index": 153
+    },
+    "(UB) clear hip circle forward to handstand": {
+      "modifier": "clear hip circle forward to handstand",
+      "index": 156
+    },
+    "(UB) clear pike circle forward to handstand": {
+      "modifier": "clear pike circle forward to handstand",
+      "index": 159
+    },
+    "(UB) stalder forward to handstand": {
+      "modifier": "stalder forward to handstand",
+      "index": 162
+    }
+  },
+  "(UB) over high bar": {
+    "(UB) (swing backward) with 0.5 turn and straddle flight backward over high bar to catch high bar": {
+      "modifier": "(swing backward) with 0.5 turn and straddle flight backward over high bar to catch high bar",
+      "index": 163
+    },
+    "(UB) counter straddle over high bar with 0.5 turn to hang": {
+      "modifier": "counter straddle over high bar with 0.5 turn to hang",
+      "index": 164
+    },
+    "(UB) counter straddle over high bar to hang": {
+      "modifier": "counter straddle over high bar to hang",
+      "index": 165
+    },
+    "(UB) counter piked over high bar to hang": {
+      "modifier": "counter piked over high bar to hang",
+      "index": 166
+    },
+    "(UB) (pike sole circle backward) counter stretched (reverse hecht) in layout position over high bar to hang": {
+      "modifier": "(pike sole circle backward) counter stretched (reverse hecht) in layout position over high bar to hang",
+      "index": 167
+    }
+  },
+  "(UB) (swing forward) salto with 0.5 turn into salto forward tucked": {
+    "(UB) (swing forward) salto with 0.5 turn into salto forward tucked": {
+      "modifier": "",
+      "index": 171
+    }
+  },
+  "(UB) salto forward tucked": {
+    "(UB) (swing backward) double salto forward tucked": {
+      "modifier": "(swing backward) double salto forward tucked",
+      "index": 172
+    },
+    "(UB) (swing backward) double salto forward tucked with 0.5 turn": {
+      "modifier": "(swing backward) double salto forward tucked with 0.5 turn",
+      "index": 174
+    },
+    "(UB) (under-swing or clear under-swing) salto forward tucked with 0.5 turn": {
+      "modifier": "(UB) (under-swing or clear under-swing) with 0.5 turn",
+      "index": 175
+    }
+  },
+  "(UB) (swing backward) salto forward with 0.5 turn into salto backward tucked": {
+    "(UB) (swing backward) salto forward with 0.5 turn into salto backward tucked": {
+      "modifier": "",
+      "index": 173
+    }
+  },
+  "(UB) (swing forward) salto backward stretched with 2 turn": {
+    "(UB) (swing forward) salto backward stretched with 2 turn": {
+      "modifier": "",
+      "index": 176
+    }
+  },
+  "(UB) (swing forward) salto backward stretched": {
+    "(UB) (swing forward) salto backward stretched": {
+      "modifier": "",
+      "index": 177
+    }
+  }
+}

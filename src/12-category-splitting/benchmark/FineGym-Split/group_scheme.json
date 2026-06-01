@@ -1,0 +1,447 @@
+{
+    "group_scheme": {
+        "(VT) round-off, flic-flac with 0.5 turn on, salto forward": [
+            "(VT) round-off, flic-flac with 0.5 turn on, stretched salto forward with 1.5 turn off",
+            "(VT) round-off, flic-flac with 0.5 turn on, stretched salto forward with 0.5 turn off",
+            "(VT) round-off, flic-flac with 0.5 turn on, stretched salto forward with 1 turn off",
+            "(VT) round-off, flic-flac with 0.5 turn on, stretched salto forward with 2 turn off",
+            "(VT) round-off, flic-flac with 0.5 turn on, piked salto forward with 0.5 turn off",
+            "(VT) round-off, flic-flac with 0.5 turn on, piked salto forward off",
+            "(VT) round-off, flic-flac with 0.5 turn on, tucked salto forward with 0.5 turn off"
+        ],
+        "(VT) round-off, flic-flac with 0.5 turn on, 0.5 turn to piked salto backward off": [
+            "(VT) round-off, flic-flac with 0.5 turn on, 0.5 turn to piked salto backward off"
+        ],
+        "(VT) round-off, flic-flac with 1 turn on, salto backward": [
+            "(VT) round-off, flic-flac with 1 turn on, stretched salto backward with 1 turn off",
+            "(VT) round-off, flic-flac with 1 turn on, piked salto backward off"
+        ],
+        "(VT) round-off, flic-flac on, salto backward": [
+            "(VT) round-off, flic-flac on, stretched salto backward with 2 turn off",
+            "(VT) round-off, flic-flac on, stretched salto backward with 1 turn off",
+            "(VT) round-off, flic-flac on, stretched salto backward with 1.5 turn off",
+            "(VT) round-off, flic-flac on, stretched salto backward with 0.5 turn off",
+            "(VT) round-off, flic-flac on, stretched salto backward with 2.5 turn off",
+            "(VT) round-off, flic-flac on, stretched salto backward off",
+            "(VT) round-off, flic-flac on, piked salto backward off",
+            "(VT) round-off, flic-flac on, tucked salto backward off"
+        ],
+        "(VT) tsukahara": [
+            "(VT) tsukahara stretched with 2 turn",
+            "(VT) tsukahara stretched with 1 turn",
+            "(VT) tsukahara stretched with 1.5 turn",
+            "(VT) tsukahara stretched with 0.5 turn",
+            "(VT) tsukahara stretched salto",
+            "(VT) tsukahara stretched without salto",
+            "(VT) tsukahara piked",
+            "(VT) tsukahara tucked with 1 turn",
+            "(VT) tsukahara tucked"
+        ],
+        "(VT) handspring forward on, salto forward": [
+            "(VT) handspring forward on, stretched salto forward with 1.5 turn off",
+            "(VT) handspring forward on, stretched salto forward with 0.5 turn off",
+            "(VT) handspring forward on, stretched salto forward with 1 turn off",
+            "(VT) handspring forward on, piked salto forward with 0.5 turn off",
+            "(VT) handspring forward on, piked salto forward with 1 turn off",
+            "(VT) handspring forward on, piked salto forward off",
+            "(VT) handspring forward on, tucked salto forward with 0.5 turn off",
+            "(VT) handspring forward on, tucked salto forward with 1 turn off",
+            "(VT) handspring forward on, tucked double salto forward off",
+            "(VT) handspring forward on, tucked salto forward off"
+        ],
+        "(VT) handspring forward on": [
+            "(VT) handspring forward on, 1.5 turn off",
+            "(VT) handspring forward on, 1 turn off",
+            "(VT) handspring forward on, no turn off"
+        ],
+        "(FX) leap with turn": [
+            "(FX) switch leap with 0.5 turn",
+            "(FX) switch leap with 1 turn",
+            "(FX) split leap with 0.5 turn",
+            "(FX) split leap with 1 turn",
+            "(FX) split leap with 1.5 turn or more",
+            "(FX) johnson with additional 0.5 turn",
+            "(FX) switch leap to ring position with 1 turn",
+            "(FX) split leap with 1 turn or more to ring position",
+            "(FX) cat leap with 2 turn"
+        ],
+        "(FX) leap": [
+            "(FX) switch leap (leap forward with leg change to cross split)",
+            "(FX) split leap forward",
+            "(FX) johnson (switch leap with 0.25 turn to side split or to straddle pike position)",
+            "(FX) switch leap to ring position",
+            "(FX) split ring leap",
+            "(FX) stride leap forward with change of legs to wolf position",
+            "(FX) cat leap (leap with alternate leg change)"
+        ],
+        "(FX) jump or hop with turn": [
+            "(FX) split jump with 1 turn",
+            "(FX) split jump with 0.5 turn",
+            "(FX) split jump with 1.5 turn",
+            "(FX) straddle pike or side split jump with 1 turn",
+            "(FX) straddle pike or side split jump with 0.5 turn",
+            "(FX) split jump with 1 turn or more to ring position",
+            "(FX) stag jump with 0.5 turn",
+            "(FX) tuck hop or jump with 1 turn",
+            "(FX) tuck hop or jump with 2 turn",
+            "(FX) stretched hop or jump with 1 turn",
+            "(FX) pike jump with 1 turn",
+            "(FX) wolf hop or jump with 1 turn",
+            "(FX) hop with 0.5 turn free leg extended above horizontal throughout",
+            "(FX) hop with 1 turn free leg extended above horizontal throughout"
+        ],
+        "(FX) jump or hop": [
+            "(FX) sissone jump (leg separation 180 degree on the diagonal to the floor, take off two feet, land on one foot)",
+            "(FX) split jump (leg separation 180 degree parallel to the floor)",
+            "(FX) straddle pike jump or side split jump",
+            "(FX) stag ring jump",
+            "(FX) ring jump (rear foot at head height, body arched and head dropped backward)",
+            "(FX) stag jump",
+            "(FX) sheep jump , jump with upper back arch and head release with feet almost touching head",
+            "(FX) wolf hop or jump ( hop or jump with one leg bent and the other extended straight , forward above horizontal with knees together )",
+            "(FX) jump with legs separated, landing in front lying support",
+            "(FX) butterfly forward, torso parallel to floor, slightly arched, legs straddled and feet above hip height during flight"
+        ],
+        "(FX) 1 turn": [
+            "(FX) illusion 1 turn through standing split",
+            "(FX) 1 turn with free leg held upward in 180 split position throughout turn",
+            "(FX) 1 turn in tuck stand on one leg, free leg optional",
+            "(FX) 1 turn in back attitude, knee of free leg at horizontal throughout turn",
+            "(FX) 1 turn on one leg, free leg optional below horizontal",
+            "(FX) 1 turn with heel of free leg forward at horizontal throughout turn"
+        ],
+        "(FX) 3 turn": [
+            "(FX) 3 turn with free leg held upward in 180 split position throughout turn",
+            "(FX) 3 turn in tuck stand on one leg, free leg straight throughout turn",
+            "(FX) 3 turn on one leg, free leg optional below horizontal"
+        ],
+        "(FX) 2 turn or more": [
+            "(FX) 2 turn with free leg held upward in 180 split position throughout turn",
+            "(FX) 2 turn in tuck stand on one leg, free leg straight throughout turn",
+            "(FX) 2 turn in back attitude, knee of free leg at horizontal throughout turn",
+            "(FX) 2 turn on one leg, free leg optional below horizontal",
+            "(FX) 2 turn or more with heel of free leg forward at horizontal throughout turn"
+        ],
+        "(FX) 1 spin or less on back in kip position, hip and leg are closed": [
+            "(FX) 1 spin or less on back in kip position, hip and leg are closed"
+        ],
+        "(FX) 4 turn on one leg, free leg optional below horizontal": [
+            "(FX) 4 turn on one leg, free leg optional below horizontal"
+        ],
+        "(FX) take-off forward from one or both legs, salto sideward tucked and (FX) aerial cartwheel": [
+            "(FX) take-off forward from one or both legs, salto sideward tucked",
+            "(FX) aerial cartwheel"
+        ],
+        "(FX) arabian double salto": [
+            "(FX) arabian double salto tucked",
+            "(FX) arabian double salto piked"
+        ],
+        "(FX) salto forward": [
+            "(FX) double salto forward tucked with 0.5 twist",
+            "(FX) double salto forward tucked",
+            "(FX) salto forward tucked",
+            "(FX) double salto forward piked",
+            "(FX) salto forward piked",
+            "(FX) salto forward stretched with 2 twist",
+            "(FX) salto forward stretched with 1 twist",
+            "(FX) salto forward stretched with 1.5 twist",
+            "(FX) salto forward stretched with 0.5 twist",
+            "(FX) salto forward stretched, feet land successively",
+            "(FX) salto forward stretched, feet land together"
+        ],
+        "(FX) aerial walkover forward": [
+            "(FX) aerial walkover forward"
+        ],
+        "(FX) salto backward": [
+            "(FX) double salto backward stretched with 2 twist",
+            "(FX) double salto backward stretched with 1 twist",
+            "(FX) double salto backward stretched with 0.5 twist",
+            "(FX) double salto backward stretched",
+            "(FX) salto backward stretched with 3 twist",
+            "(FX) salto backward stretched with 2 twist",
+            "(FX) salto backward stretched with 1 twist",
+            "(FX) salto backward stretched",
+            "(FX) salto backward stretched with 3.5 twist",
+            "(FX) salto backward stretched with 2.5 twist",
+            "(FX) salto backward stretched with 1.5 twist",
+            "(FX) salto backward stretched with 0.5 twist",
+            "(FX) double salto backward tucked with 2 twist",
+            "(FX) double salto backward tucked with 1 twist",
+            "(FX) double salto backward tucked",
+            "(FX) salto backward tucked",
+            "(FX) double salto backward piked with 1 twist",
+            "(FX) double salto backward piked",
+            "(FX) whip salto backward"
+        ],
+        "(BB) ring and arch jump": [
+            "(BB) yang-bo (jump to cross over split with body arched and head dropped backward)",
+            "(BB) stag-ring jump",
+            "(BB) ring jump (rear foot at head height, body arched and head dropped backward, 180 separation of legs)",
+            "(BB) split ring jump (ring jump with front leg horizontal to the floor)",
+            "(BB) split ring leap",
+            "(BB) sheep jump (jump with upper back arch and head release with feet to head height/closed Ring)"
+        ],
+        "(BB) split and straddle jump": [
+            "(BB) sissone (leg separation 180 degree on the diagonal to the floor, take off two feet, land on one foot)",
+            "(BB) split jump with 0.5 turn in side position",
+            "(BB) split jump with 0.5 turn",
+            "(BB) split jump with 1 turn",
+            "(BB) split jump",
+            "(BB) straddle pike jump with 0.5 turn in side position",
+            "(BB) straddle pike jump with 0.5 turn",
+            "(BB) straddle pike jump with 1 turn",
+            "(BB) straddle pike jump or side split jump in side position",
+            "(BB) straddle pike jump or side split jump",
+            "(BB) johnson with additional 0.5 turn",
+            "(BB) johnson (leap forward with leg change and 0.25 turn to side split or straddle pike position)"
+        ],
+        "(BB) split and switch leap": [
+            "(BB) switch leap with 0.5 turn",
+            "(BB) switch leap with 1 turn",
+            "(BB) split leap with 1 turn",
+            "(BB) switch leap (leap forward with leg change)",
+            "(BB) stag split leap forward",
+            "(BB) split leap forward",
+            "(BB) switch leap to ring position"
+        ],
+        "(BB) tuck hop or jump, pick jump and stretched hop or jump": [
+            "(BB) tuck hop or jump with 1 turn",
+            "(BB) tuck hop or jump with 0.5 turn",
+            "(BB) pike jump from cross position",
+            "(BB) stretched jump/hop with 1 turn"
+        ],
+        "(BB) wolf hop or jump and cat leap": [
+            "(BB) wolf hop or jump with 1 turn",
+            "(BB) wolf hop or jump with 0.5 turn",
+            "(BB) wolf hop or jump (hip angle at 45, knees together)",
+            "(BB) cat leap (knees above horizontal alternately)"
+        ],
+        "(BB) turn with legs in 180 split": [
+            "(BB) 1 illusion turn through standing split, 180 legs separation",
+            "(BB) 1.5 turn with free leg held upward in 180 split position throughout turn",
+            "(BB) 1 turn with free leg held upward in 180 split position throughout turn"
+        ],
+        "(BB) turns with free leg at horizontal and turns with free leg optional below horizontal": [
+            "(BB) 1.5 turn with heel of free leg forward at horizontal throughout turn",
+            "(BB) 2 turn with heel of free leg forward at horizontal throughout turn",
+            "(BB) 1 turn with heel of free leg forward at horizontal throughout turn",
+            "(BB) 2 turn on one leg, free leg optional below horizontal",
+            "(BB) 1.5 turn on one leg, free leg optional below horizontal",
+            "(BB) 1 turn on one leg, free leg optional below horizontal",
+            "(BB) 1 turn on one leg, thigh of free leg at horizontal, backward upward throughout turn"
+        ],
+        "(BB) turn in tuck": [
+            "(BB) 2.5 turn in tuck stand on one leg, free leg optional",
+            "(BB) 1.5 turn in tuck stand on one leg, free leg optional",
+            "(BB) 3 turn in tuck stand on one leg, free leg optional",
+            "(BB) 2 turn in tuck stand on one leg, free leg optional",
+            "(BB) 1 turn in tuck stand on one leg, free leg optional"
+        ],
+        "(BB) salto backward": [
+            "(BB) jump forward with 0.5 twist and salto backward tucked",
+            "(BB) salto backward piked",
+            "(BB) gainer salto backward stretched-step out (feet land successively)",
+            "(BB) salto backward stretched-step out (feet land successively)",
+            "(BB) salto backward stretched with legs together"
+        ],
+        "(BB) salto sideward tucked": [
+            "(BB) salto sideward tucked with 0.5 turn, take off from one leg to side stand",
+            "(BB) salto sideward tucked, take off from one leg to side stand"
+        ],
+        "(BB) free aerial": [
+            "(BB) free aerial cartwheel landing in side position",
+            "(BB) free aerial round-off",
+            "(BB) free aerial cartwheel landing in cross position",
+            "(BB) free aerial walkover forward, landing on one or both feet"
+        ],
+        "(BB) arabian salto tucked (take-off backward with 0.5 twist, salto forward)": [
+            "(BB) arabian salto tucked (take-off backward with 0.5 twist, salto forward)"
+        ],
+        "(BB) salto forward tucked": [
+            "(BB) salto forward tucked to cross stand",
+            "(BB) salto forward tucked (take-off from one leg to stand on one or two feet)"
+        ],
+        "(BB) salto forward piked to cross stand": [
+            "(BB) salto forward piked to cross stand"
+        ],
+        "(BB) flic-flac": [
+            "(BB) flic-flac with 1 twist, swing down to cross straddle sit",
+            "(BB) flic-flac, swing down to cross straddle sit",
+            "(BB) gainer flic-flac, also with support on one arm",
+            "(BB) flic-flac with 0.75 twist to side handstand, keep 2 seconds, lower to optional end position",
+            "(BB) flic-flac with minimum 0.75 twist before hand support",
+            "(BB) jump backward, flic-flac take-off with 0.5 twist through handstand to walkover forward, also with support on one arm",
+            "(BB) flic-flac to land on both feet",
+            "(BB) flic-flac with step-out, also with support on one arm"
+        ],
+        "(BB) round-off": [
+            "(BB) round-off"
+        ],
+        "(BB) handspring forward with flight to land on one or both legs, also with support on one arm": [
+            "(BB) handspring forward with flight to land on one or both legs, also with support on one arm"
+        ],
+        "(BB) salto tucked": [
+            "(BB) arabian double salto forward tucked",
+            "(BB) salto forward tucked with 1 twist",
+            "(BB) salto forward tucked",
+            "(BB) double salto backward tucked with 1 twist",
+            "(BB) double salto backward tucked",
+            "(BB) salto backward tucked with 1 twist",
+            "(BB) salto backward tucked",
+            "(BB) salto backward tucked with 1.5 twist"
+        ],
+        "(BB) salto forward piked": [
+            "(BB) salto forward piked"
+        ],
+        "(BB) salto stretched": [
+            "(BB) salto forward stretched with 1.5 twist",
+            "(BB) salto forward stretched with 1 twist",
+            "(BB) salto forward stretched",
+            "(BB) salto backward stretched with 3 twist",
+            "(BB) salto backward stretched with 2 twist",
+            "(BB) salto backward stretched with 1 twist",
+            "(BB) salto backward stretched",
+            "(BB) salto backward stretched with 2.5 twist",
+            "(BB) salto backward stretched with 1.5 twist",
+            "(BB) salto backward stretched with 0.5 twist"
+        ],
+        "(BB) double salto backward piked": [
+            "(BB) double salto backward piked"
+        ],
+        "(BB) gainer salto": [
+            "(BB) gainer salto backward stretched with 1 twist to side of beam",
+            "(BB) gainer salto tucked at end of beam",
+            "(BB) gainer salto piked at end of beam",
+            "(BB) gainer salto stretched with 1 twist at end of beam",
+            "(BB) gainer salto stretched with legs together at end of the beam"
+        ],
+        "(UB) circle backward with turn": [
+            "(UB) pike sole circle backward with 1.5 turn to handstand",
+            "(UB) pike sole circle backward with 1 turn to handstand",
+            "(UB) pike sole circle backward with 0.5 turn to handstand",
+            "(UB) giant circle backward with 1.5 turn to handstand",
+            "(UB) giant circle backward with hop 1 turn to handstand",
+            "(UB) giant circle backward with 1 turn to handstand",
+            "(UB) giant circle backward with 0.5 turn to handstand",
+            "(UB) clear hip circle backward with 1 turn to handstand",
+            "(UB) clear hip circle backward with 0.5 turn to handstand",
+            "(UB) clear pike circle backward with 1 turn to handstand",
+            "(UB) clear pike circle backward with 0.5 turn to handstand",
+            "(UB) stalder backward with 1 turn to handstand",
+            "(UB) stalder backward with 0.5 turn to handstand"
+        ],
+        "(UB) circle backward without turn": [
+            "(UB) pike sole circle backward to handstand",
+            "(UB) giant circle backward",
+            "(UB) clear hip circle backward to handstand",
+            "(UB) clear pike circle backward to handstand",
+            "(UB) stalder backward to handstand"
+        ],
+        "(UB) circle forward with turn": [
+            "(UB) pike sole circle forward with 0.5 turn to handstand",
+            "(UB) giant circle forward with 1 turn on one arm before handstand phase",
+            "(UB) giant circle forward with 1 turn to handstand",
+            "(UB) giant circle forward with 1.5 turn to handstand",
+            "(UB) giant circle forward with 0.5 turn to handstand",
+            "(UB) clear hip circle forward with 0.5 turn to handstand",
+            "(UB) stalder forward with 0.5 turn to handstand"
+        ],
+        "(UB) circle forward without turn": [
+            "(UB) giant circle forward",
+            "(UB) clear hip circle forward to handstand",
+            "(UB) clear pike circle forward to handstand",
+            "(UB) stalder forward to handstand"
+        ],
+        "(UB) over high bar": [
+            "(UB) (swing backward) with 0.5 turn and straddle flight backward over high bar to catch high bar",
+            "(UB) counter straddle over high bar with 0.5 turn to hang",
+            "(UB) counter straddle over high bar to hang",
+            "(UB) counter piked over high bar to hang",
+            "(UB) (pike sole circle backward) counter stretched (reverse hecht) in layout position over high bar to hang"
+        ],
+        "(UB) hang on high bar": [
+            "(UB) (swing backward or front support) salto forward straddled to hang on high bar",
+            "(UB) (swing backward) salto forward piked to hang on high bar",
+            "(UB) (swing forward or hip circle backward) salto backward with 0.5 turn piked to hang on high bar",
+            "(UB) (swing backward) salto forward stretched to hang on high bar",
+            "(UB) (swing forward) salto backward stretched with 0.5 turn to hang on high bar"
+        ],
+        "(UB) transition flight": [
+            "(UB) transition flight from high bar to low bar",
+            "(UB) transition flight from low bar to high bar"
+        ],
+        "(UB) (swing forward) double salto backward": [
+            "(UB) (swing forward) double salto backward tucked with 1.5 turn",
+            "(UB) (swing forward) double salto backward tucked with 2 turn",
+            "(UB) (swing forward) double salto backward tucked with 1 turn",
+            "(UB) (swing forward) double salto backward tucked",
+            "(UB) (swing forward) double salto backward piked",
+            "(UB) (swing forward) double salto backward stretched with 2 turn",
+            "(UB) (swing forward) double salto backward stretched with 1 turn",
+            "(UB) (swing forward) double salto backward stretched"
+        ],
+        "(UB) (swing forward) salto with 0.5 turn into salto forward tucked": [
+            "(UB) (swing forward) salto with 0.5 turn into salto forward tucked"
+        ],
+        "(UB) salto forward tucked": [
+            "(UB) (swing backward) double salto forward tucked",
+            "(UB) (swing backward) double salto forward tucked with 0.5 turn",
+            "(UB) (under-swing or clear under-swing) salto forward tucked with 0.5 turn"
+        ],
+        "(UB) (swing backward) salto forward with 0.5 turn into salto backward tucked": [
+            "(UB) (swing backward) salto forward with 0.5 turn into salto backward tucked"
+        ],
+        "(UB) (swing forward) salto backward stretched with 2 turn": [
+            "(UB) (swing forward) salto backward stretched with 2 turn"
+        ],
+        "(UB) (swing forward) salto backward stretched": [
+            "(UB) (swing forward) salto backward stretched"
+        ]
+    },
+    "A": [
+        "(VT) round-off, flic-flac with 0.5 turn on, salto forward",
+        "(VT) round-off, flic-flac with 1 turn on, salto backward",
+        "(VT) handspring forward on, salto forward",
+        "(FX) leap",
+        "(FX) jump or hop",
+        "(FX) 2 turn or more",
+        "(FX) 3 turn",
+        "(FX) take-off forward from one or both legs, salto sideward tucked and (FX) aerial cartwheel",
+        "(FX) salto forward",
+        "(FX) arabian double salto",
+        "(BB) ring and arch jump",
+        "(BB) wolf hop or jump and cat leap",
+        "(BB) turns with free leg at horizontal and turns with free leg optional below horizontal",
+        "(BB) salto backward",
+        "(BB) free aerial",
+        "(BB) salto stretched",
+        "(UB) circle backward without turn",
+        "(UB) circle forward with turn",
+        "(UB) hang on high bar",
+        "(UB) transition flight",
+        "(BB) salto forward tucked",
+        "(BB) gainer salto",
+        "(UB) (swing forward) double salto backward"
+    ],
+    "B": [
+        "(VT) round-off, flic-flac on, salto backward",
+        "(VT) tsukahara",
+        "(VT) handspring forward on",
+        "(FX) leap with turn",
+        "(FX) jump or hop with turn",
+        "(FX) 1 turn",
+        "(FX) salto backward",
+        "(BB) split and straddle jump",
+        "(BB) split and switch leap",
+        "(BB) tuck hop or jump, pick jump and stretched hop or jump",
+        "(BB) turn with legs in 180 split",
+        "(BB) turn in tuck",
+        "(BB) salto sideward tucked",
+        "(BB) flic-flac",
+        "(BB) salto tucked",
+        "(UB) circle backward with turn",
+        "(UB) circle forward without turn",
+        "(UB) over high bar",
+        "(UB) salto forward tucked"
+    ]
+}

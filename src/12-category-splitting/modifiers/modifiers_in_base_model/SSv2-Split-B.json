@@ -1,0 +1,618 @@
+{
+  "Moving the camera and Turning the camera": {
+    "Moving the camera and Turning the camera": {
+      "modifier": "",
+      "index": 0
+    }
+  },
+  "Covering something with something and Uncovering something": {
+    "Covering something with something and Uncovering something": {
+      "modifier": "",
+      "index": 6
+    }
+  },
+  "Folding something and Unfolding something": {
+    "Folding something and Unfolding something": {
+      "modifier": "",
+      "index": 14
+    }
+  },
+  "Holding something with spatial relation": {
+    "Holding something with spatial relation": {
+      "modifier": "",
+      "index": 17
+    }
+  },
+  "Lifting up one end of something": {
+    "Lifting up one end of something": {
+      "modifier": "",
+      "index": 27
+    }
+  },
+  "Moving something across a surface": {
+    "Moving something across a surface": {
+      "modifier": "",
+      "index": 29
+    }
+  },
+  "Moving something": {
+    "Moving something": {
+      "modifier": "",
+      "index": 34
+    }
+  },
+  "Piling something up and Stacking number of something": {
+    "Piling something up and Stacking number of something": {
+      "modifier": "",
+      "index": 37
+    }
+  },
+  "Plugging something into something and Plugging something into something but pulling it right out as you remove your hand": {
+    "Plugging something into something and Plugging something into something but pulling it right out as you remove your hand": {
+      "modifier": "",
+      "index": 38
+    }
+  },
+  "Poking a hole": {
+    "Poking a hole": {
+      "modifier": "",
+      "index": 39
+    }
+  },
+  "Poking something": {
+    "Poking something": {
+      "modifier": "",
+      "index": 42
+    }
+  },
+  "Pouring something": {
+    "Pouring something": {
+      "modifier": "",
+      "index": 43
+    }
+  },
+  "Pretending or failing to wipe something off of something and Wiping something off of something": {
+    "Pretending or failing to wipe something off of something and Wiping something off of something": {
+      "modifier": "",
+      "index": 44
+    }
+  },
+  "Pretending to close something without actually closing it and Pretending to open something without actually opening it": {
+    "Pretending to close something without actually closing it and Pretending to open something without actually opening it": {
+      "modifier": "",
+      "index": 47
+    }
+  },
+  "Pretending to scoop something up with something and Scooping something up with something": {
+    "Pretending to scoop something up with something and Scooping something up with something": {
+      "modifier": "",
+      "index": 56
+    }
+  },
+  "Pretending to sprinkle air onto something and Sprinkling something onto something": {
+    "Pretending to sprinkle air onto something and Sprinkling something onto something": {
+      "modifier": "",
+      "index": 58
+    }
+  },
+  "Pretending to take something out of something and Taking something out of something": {
+    "Pretending to take something out of something and Taking something out of something": {
+      "modifier": "",
+      "index": 61
+    }
+  },
+  "Pretending to throw something and Throwing something": {
+    "Pretending to throw something and Throwing something": {
+      "modifier": "",
+      "index": 62
+    }
+  },
+  "Pretending to turn something upside down and Turning something upside down": {
+    "Pretending to turn something upside down and Turning something upside down": {
+      "modifier": "",
+      "index": 63
+    }
+  },
+  "Pulling something": {
+    "Pulling something": {
+      "modifier": "",
+      "index": 64
+    }
+  },
+  "Pulling two ends of something": {
+    "Pulling two ends of something": {
+      "modifier": "",
+      "index": 65
+    }
+  },
+  "Putting something with spatial relation": {
+    "Putting something with spatial relation": {
+      "modifier": "",
+      "index": 77
+    }
+  },
+  "Putting something that can't roll onto a slanted surface": {
+    "Putting something that can't roll onto a slanted surface": {
+      "modifier": "",
+      "index": 84
+    }
+  },
+  "Showing something's properties": {
+    "Showing something's properties": {
+      "modifier": "",
+      "index": 90
+    }
+  },
+  "Spilling something with spatial relation": {
+    "Spilling something with spatial relation": {
+      "modifier": "",
+      "index": 100
+    }
+  },
+  "Throwing something toward something": {
+    "Throwing something toward something": {
+      "modifier": "",
+      "index": 110
+    }
+  },
+  "Tipping something over and Tipping something with something in it over, so something in it falls out": {
+    "Tipping something over and Tipping something with something in it over, so something in it falls out": {
+      "modifier": "",
+      "index": 115
+    }
+  },
+  "Attaching something to something and Trying but failing to attach something to something because it doesn't stick": {
+    "Attaching something to something": {
+      "modifier": "attaching something to something",
+      "index": 1
+    },
+    "Trying but failing to attach something to something because it doesn't stick": {
+      "modifier": "trying but failing to attach something to something because it doesn't stick",
+      "index": 117
+    }
+  },
+  "Bending something": {
+    "Bending something so that it deforms": {
+      "modifier": "something deforms",
+      "index": 2
+    },
+    "Bending something until it breaks": {
+      "modifier": "something breaks",
+      "index": 3
+    },
+    "Trying to bend something unbendable so nothing happens": {
+      "modifier": "nothing happens",
+      "index": 118
+    }
+  },
+  "Burying something in something and Digging something out of something": {
+    "Burying something in something": {
+      "modifier": "burying something in something",
+      "index": 4
+    },
+    "Digging something out of something": {
+      "modifier": "digging something out of something",
+      "index": 7
+    }
+  },
+  "Closing something and Opening something": {
+    "Closing something": {
+      "modifier": "closing something",
+      "index": 5
+    },
+    "Opening something": {
+      "modifier": "opening something",
+      "index": 35
+    }
+  },
+  "Dropping something with spatial relation": {
+    "Dropping something behind something": {
+      "modifier": "something behind something",
+      "index": 8
+    },
+    "Dropping something in front of something": {
+      "modifier": "something in front of something",
+      "index": 9
+    },
+    "Dropping something into something": {
+      "modifier": "something into something",
+      "index": 10
+    },
+    "Dropping something next to something": {
+      "modifier": "something next to something",
+      "index": 11
+    },
+    "Dropping something onto something": {
+      "modifier": "something onto something",
+      "index": 12
+    }
+  },
+  "Failing to put something into something because something does not fit": {
+    "Failing to put something into something because something does not fit": {
+      "modifier": "",
+      "index": 13
+    }
+  },
+  "Hitting something with something": {
+    "Hitting something with something": {
+      "modifier": "",
+      "index": 15
+    }
+  },
+  "Holding something": {
+    "Holding something": {
+      "modifier": "",
+      "index": 16
+    }
+  },
+  "Putting something on the table": {
+    "Laying something on the table on its side, not upright": {
+      "modifier": "something on the table on its side, not upright",
+      "index": 18
+    },
+    "Putting something similar to other things that are already on the table": {
+      "modifier": "something similar to other things that are already on the table",
+      "index": 83
+    },
+    "Putting something that cannot actually stand upright upright on the table, so it falls on its side": {
+      "modifier": "something that cannot actually stand upright upright on the table, so it falls on its side",
+      "index": 85
+    },
+    "Putting something upright on the table": {
+      "modifier": "something upright on the table",
+      "index": 86
+    }
+  },
+  "Letting something roll": {
+    "Letting something roll along a flat surface": {
+      "modifier": "something roll along a flat surface",
+      "index": 19
+    },
+    "Letting something roll down a slanted surface": {
+      "modifier": "something roll down a slanted surface",
+      "index": 20
+    },
+    "Letting something roll up a slanted surface, so it rolls back down": {
+      "modifier": "something roll up a slanted surface, so it rolls back down",
+      "index": 21
+    }
+  },
+  "Lifting a surface with something on it": {
+    "Lifting a surface with something on it but not enough for it to slide down": {
+      "modifier": "but not enough for something to slide down",
+      "index": 22
+    },
+    "Lifting a surface with something on it until it starts sliding down": {
+      "modifier": "something starts sliding down",
+      "index": 23
+    }
+  },
+  "Lifting something up completely": {
+    "Lifting something up completely without letting it drop down": {
+      "modifier": "without letting something drop down",
+      "index": 24
+    },
+    "Lifting something up completely, then letting it drop down": {
+      "modifier": "something drop down",
+      "index": 25
+    }
+  },
+  "Lifting something with something on it": {
+    "Lifting something with something on it": {
+      "modifier": "",
+      "index": 26
+    }
+  },
+  "Moving part of something": {
+    "Moving part of something": {
+      "modifier": "",
+      "index": 28
+    }
+  },
+  "Moving something and something": {
+    "Moving something and something away from each other": {
+      "modifier": "something and something away from each other",
+      "index": 30
+    },
+    "Moving something and something closer to each other": {
+      "modifier": "something and something closer to each other",
+      "index": 31
+    },
+    "Moving something and something so they collide with each other": {
+      "modifier": "something and something collide with each other",
+      "index": 32
+    },
+    "Moving something and something so they pass each other": {
+      "modifier": "something and something pass each other",
+      "index": 33
+    }
+  },
+  "Picking something up and Pretending to pick something up": {
+    "Picking something up": {
+      "modifier": "Picking something up",
+      "index": 36
+    },
+    "Pretending to pick something up": {
+      "modifier": "Pretending to pick something up",
+      "index": 48
+    }
+  },
+  "Poking a stack of something": {
+    "Poking a stack of something so the stack collapses": {
+      "modifier": "the stack collapses",
+      "index": 40
+    },
+    "Poking a stack of something without the stack collapsing": {
+      "modifier": "without the stack collapsing",
+      "index": 41
+    }
+  },
+  "Twisting something, Twisting (wringing) something wet until water comes out and Pretending or trying and failing to twist something": {
+    "Pretending or trying and failing to twist something": {
+      "modifier": "Pretending or trying and failing to twist something",
+      "index": 45
+    },
+    "Twisting (wringing) something wet until water comes out": {
+      "modifier": "Twisting (wringing) something wet until water comes out",
+      "index": 119
+    },
+    "Twisting something": {
+      "modifier": "Twisting something",
+      "index": 120
+    }
+  },
+  "Tearing something": {
+    "Pretending to be tearing something that is not tearable": {
+      "modifier": "nothing happens",
+      "index": 46
+    },
+    "Tearing something into two pieces": {
+      "modifier": "something into two pieces",
+      "index": 108
+    },
+    "Tearing something just a little bit": {
+      "modifier": "tearing something just a little bit",
+      "index": 109
+    }
+  },
+  "Pretending to poke something": {
+    "Pretending to poke something": {
+      "modifier": "",
+      "index": 49
+    }
+  },
+  "Pretending to put something with spatial relation": {
+    "Pretending to put something behind something": {
+      "modifier": "something behind something",
+      "index": 50
+    },
+    "Pretending to put something into something": {
+      "modifier": "something into something",
+      "index": 51
+    },
+    "Pretending to put something next to something": {
+      "modifier": "something next to something",
+      "index": 52
+    },
+    "Pretending to put something on a surface": {
+      "modifier": "something on a surface",
+      "index": 53
+    },
+    "Pretending to put something onto something": {
+      "modifier": "something onto something",
+      "index": 54
+    },
+    "Pretending to put something underneath something": {
+      "modifier": "something underneath something",
+      "index": 55
+    }
+  },
+  "Pretending to spread air onto something and Spreading something onto something": {
+    "Pretending to spread air onto something": {
+      "modifier": "pretending to spread air onto something",
+      "index": 57
+    },
+    "Spreading something onto something": {
+      "modifier": "spreading something onto something",
+      "index": 103
+    }
+  },
+  "Pretending to squeeze something and Squeezing something": {
+    "Pretending to squeeze something": {
+      "modifier": "pretending to squeeze something",
+      "index": 59
+    },
+    "Squeezing something": {
+      "modifier": "squeezing something",
+      "index": 104
+    }
+  },
+  "Pretending to take something from somewhere and Taking something from somewhere": {
+    "Pretending to take something from somewhere": {
+      "modifier": "pretending to take something from somewhere",
+      "index": 60
+    },
+    "Taking something from somewhere": {
+      "modifier": "taking something from somewhere",
+      "index": 107
+    }
+  },
+  "Pushing something": {
+    "Pushing something from left to right": {
+      "modifier": "something from left to right",
+      "index": 66
+    },
+    "Pushing something from right to left": {
+      "modifier": "something from right to left",
+      "index": 67
+    },
+    "Pushing something off of something": {
+      "modifier": "something off of something",
+      "index": 68
+    },
+    "Pushing something onto something": {
+      "modifier": "something onto something",
+      "index": 69
+    },
+    "Pushing something so it spins": {
+      "modifier": "something spins",
+      "index": 70
+    },
+    "Pushing something so that it almost falls off but doesn't": {
+      "modifier": "something almost falls off but doesn't",
+      "index": 71
+    },
+    "Pushing something so that it falls off the table": {
+      "modifier": "something falls off the table",
+      "index": 72
+    },
+    "Pushing something so that it slightly moves": {
+      "modifier": "something slightly moves",
+      "index": 73
+    },
+    "Pushing something with something": {
+      "modifier": "something with something",
+      "index": 74
+    }
+  },
+  "Putting multiple things": {
+    "Putting number of something onto something": {
+      "modifier": "putting number of something onto something",
+      "index": 75
+    },
+    "Putting something and something on the table": {
+      "modifier": "putting something and something on the table",
+      "index": 76
+    },
+    "Putting something, something and something on the table": {
+      "modifier": "putting something, something and something on the table",
+      "index": 87
+    }
+  },
+  "Putting something on a surface or onto something": {
+    "Putting something on a flat surface without letting it roll": {
+      "modifier": "something on a flat surface without letting it roll",
+      "index": 78
+    },
+    "Putting something on a surface": {
+      "modifier": "something on a surface",
+      "index": 79
+    },
+    "Putting something on the edge of something so it is not supported and falls down": {
+      "modifier": "something on the edge of something so it is not supported and falls down",
+      "index": 80
+    },
+    "Putting something onto a slanted surface but it doesn't glide down": {
+      "modifier": "something onto a slanted surface but it doesn't glide down",
+      "index": 81
+    },
+    "Putting something onto something else that cannot support it so it falls down": {
+      "modifier": "something onto something else that cannot support it so it falls down",
+      "index": 82
+    }
+  },
+  "Removing something, revealing something behind": {
+    "Removing something, revealing something behind": {
+      "modifier": "",
+      "index": 88
+    }
+  },
+  "Rolling something on a flat surface": {
+    "Rolling something on a flat surface": {
+      "modifier": "",
+      "index": 89
+    }
+  },
+  "Showing something with spatial relation": {
+    "Showing something behind something": {
+      "modifier": "something behind something",
+      "index": 91
+    },
+    "Showing something next to something": {
+      "modifier": "something next to something",
+      "index": 92
+    },
+    "Showing something on top of something": {
+      "modifier": "something on top of something",
+      "index": 93
+    }
+  },
+  "Showing something to the camera": {
+    "Showing something to the camera": {
+      "modifier": "Showing something to the camera",
+      "index": 94
+    }
+  },
+  "Something colliding with something": {
+    "Something being deflected from something": {
+      "modifier": "something is being deflected",
+      "index": 95
+    },
+    "Something colliding with something and both are being deflected": {
+      "modifier": "something and something are being deflected",
+      "index": 96
+    },
+    "Something colliding with something and both come to a halt": {
+      "modifier": "something and something come to a halt",
+      "index": 97
+    }
+  },
+  "Something falling": {
+    "Something falling like a feather or paper": {
+      "modifier": "something like a feather or paper",
+      "index": 98
+    },
+    "Something falling like a rock": {
+      "modifier": "something like a rock",
+      "index": 99
+    }
+  },
+  "Spinning something": {
+    "Spinning something so it continues spinning": {
+      "modifier": "something continues spinning",
+      "index": 101
+    },
+    "Spinning something that quickly stops spinning": {
+      "modifier": "something quickly stops spinning",
+      "index": 102
+    }
+  },
+  "Stuffing something into something": {
+    "Stuffing something into something": {
+      "modifier": "",
+      "index": 105
+    }
+  },
+  "Taking one of many similar things on the table": {
+    "Taking one of many similar things on the table": {
+      "modifier": "Taking one of many similar things on the table",
+      "index": 106
+    }
+  },
+  "Throwing something in the air": {
+    "Throwing something in the air and catching it": {
+      "modifier": "catching something",
+      "index": 111
+    },
+    "Throwing something in the air and letting it fall": {
+      "modifier": "something falls",
+      "index": 112
+    }
+  },
+  "Tilting something with something on it": {
+    "Tilting something with something on it slightly so it doesn't fall down": {
+      "modifier": "something doesn't fall down",
+      "index": 113
+    },
+    "Tilting something with something on it until it falls off": {
+      "modifier": "something falls off",
+      "index": 114
+    }
+  },
+  "Touching (without moving) part of something": {
+    "Touching (without moving) part of something": {
+      "modifier": "Touching (without moving) part of something",
+      "index": 116
+    }
+  }
+}

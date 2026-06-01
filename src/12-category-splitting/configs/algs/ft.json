@@ -1,0 +1,21 @@
+{
+    "class_name":"ft",
+    "zero_shot": false,
+    "init_args":{
+        "freeze_backbone": true,
+        "freeze_old_head": true
+    },
+    "train_args":{
+        "shot":1,
+        "val_ratio":0.1,
+        "batch_size":16,
+        "epochs":100,
+        "weight_decay":1e-3,
+        "lr":1e-3,
+        "min_lr":1e-6,
+        "early_stop":true,
+        "ema_beta":0.95,
+        "ema_patience":5,
+        "ema_min_delta":1e-3
+    }
+}
