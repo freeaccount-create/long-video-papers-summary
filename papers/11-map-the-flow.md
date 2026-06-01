@@ -8,7 +8,7 @@
 
 ## 1. 源码可得性 / 结构
 
-- `analysis/`：全部解剖工具——`causal_intervention_tools.py`（attention knockout / logit lens 底层）、`information_flow_analysis.py`（三阶段信息通路定位）、`effective_pathway_analysis.py`（有效通路剪枝实验）、`logit_lens_analysis.py`、`gen_prob_analysis.py`、`attention_visualization.py`（及 VideoLLaMA3 版本）。
+- `analysis/`：全部解剖工具——`causal_intervention_tools.py`（attention knockout / logit lens 底层）、`information_flow_analysis.py`（三阶段信息通路定位）、`effective_pathway_analysis.py`（有效通路剪枝实验）、`logit_lens_analysis.py`、`gen_prob_analysis.py`、`attention_visualization.py`。
 - `scripts/analysis/*.sh`：各模型运行脚本。
 - `models/`（internlm2 / internvl / phi3 / pllava 的魔改 modeling）、`tasks/eval/`（数据集加载、conv 模板）、`dataset/`、`videollama3/`。
 - `docs/TRAIN.md`、`README.md`、`requirements.txt`。
@@ -42,7 +42,7 @@
 **三阶段信息通路的定义与定位**（`information_flow_analysis.py`，`--target` 选择 + `--window`/`--sweep_range` 逐层滑窗）：
 
 1. **早-中层 cross-frame 交互**（`--target cross-frame`，:306-313）：`find_inter_frame_block_ranges()`（`causal_intervention_tools.py:324-334`）把 1152 video token 按 8 帧分组，构造"帧 i 的 query → 前序所有帧的 key"的阻断对，即切断跨帧注意力。VideoLLM 在早-中层被切后概率大跌，基座 ImageLLM 几乎不变 → 该能力来自 video 指令微调。
-2. **时序词对齐 / 视频→语言整合**（`--target vql-to-ql`，:315-321）：定义 `Video↛Question / Video↛Last / Question↛Last / Last↛Last` 四类阻断。`vq-to-true-opt`（:328-332）进一步细分。配合 **Logit Lens**（`logit_lens_analysis.py`）把各层 video token 残差投影到词表（`hs.matmul(E.T)`，`causal_intervention_tools.py:242-248`），统计落在 **temporal bag-of-words**（`eat/open/put/take/up...`，:33-38）vs **spatial bag-of-words**（`bag/bed/box...`，:24-32）的频次，证明中层 video token 与"时序概念词"对齐。
+2. **时序词对齐 / 视频→语言整合**（`--target vql-to-ql`，:315-321）：定义 `Video↛Question / Video↛Last / Question↛Last / Last↛Last` 四类阻断。`vq-to-true-opt`（:328-332）进一步细分。配合 **Logit Lens**（`logit_lens_analysis.py`）把各层 video token 残差投影到词表（`hs.matmul(E.T)`，`causal_intervention_tools.py:242-248`），统计落在 **temporal bag-of-words**（`eat/open/put/take/up...`，`logit_lens_analysis.py:33-38`）vs **spatial bag-of-words**（`bag/bed/box...`，`logit_lens_analysis.py:24-32`）的频次，证明中层 video token 与"时序概念词"对齐。
 3. **答案生成（中-后层）**（`--target question-and-options-to-last`，:323-326 + `gen_prob_analysis.py`）：逐层追踪 last token 上正确/错误选项概率，显示整合完成后概率立即上升。
 
 **保留有效 edges 的实验**（`effective_pathway_analysis.py`）：只**保留**三条通路、其余全切。7B 配置（:260-263）：cross-frame 留 L6-15、Video→Question 留 L6-20、Question→Last 留 L16-25；`last_to_last`/`vision_to_last` 全层切断（:275-288）。逐层组装后统计保留比例 `attn_count_new / attn_count_baseline`（:327-329, 367, 386）。结论：7B 可**压制约 58% 注意力 edges**（≈保留 42%）而保持 VideoQA 精度（`README.md:38`；`effective_pathway_analysis.py:33-35`）。

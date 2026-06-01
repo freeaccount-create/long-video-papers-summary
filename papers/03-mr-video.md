@@ -37,7 +37,7 @@
   1. 对每个 10s 短片（20 帧 @2fps）先 prompt VLM 判断是否单一场景，含多场景则返回过渡帧 index → 得到原子单位"scene"（解释了 caption 的非等长窗口与 `BEGIN/END_OF_NEW_DESCRIPTION` 标记）。
   2. 对 2min 段（30 帧 @0.25fps）列出显著角色/物体及最佳展示帧，prepend 到 caption 上下文。
   3. 逐 scene 三段式 caption：`[1. Brief Description] / [2. Appeared Characters] / [3. Detailed Description]`。
-- **Reduce — 人名/物体名归一化**（仍由 VLM 看 salient frames 做关联）：合并"同人不同名"、拆分"同名不同人"，分配**全局唯一新名**并回写所有 caption，统一格式 `<NAME>`。真实数据形态：`<person_d-10>`、`<woman_a-1>`、`<rat_a-6>`，命名规则 `<类型_字母-数字>`（单文件中 `person_d-10` 出现 321 次）。
+- **Reduce — 人名/物体名归一化**（仍由 VLM 看 salient frames 做关联）：合并"同人不同名"、拆分"同名不同人"，分配**全局唯一新名**并回写所有 caption，统一格式 `<NAME>`。真实数据形态：`<person_d-10>`、`<woman_a-1>`、`<rat_a-6>`，命名规则 `<类型_字母-数字>`（单文件中带尖括号的 `<person_d-10>` 形式出现 321 次）。
 
 ### 第二轮 = 阶段 B：Analysis（逐问题，LLM = GPT-4o）
 - **§3.3 问题意图分析 + 定位**：Map 把视频按~32 scene 切大段，LLM 读"聚合 caption + 中间帧"判断段内相关 scene，恢复 when/where/who 隐含线索；Reduce 聚合成视频级统一意图，产出候选 scene 集合。
@@ -50,7 +50,7 @@
 问题：*"How many sticks does the protagonist put in the incense burner?（A.3 B.2 C.5 D.1）"*（概览图真实题），用真实视频 `2sriHX3PbXw` 数据形态演示：
 
 1. **Map(caption, Gemini-2.0-Flash)** → 每 scene 三段式产物，如窗口 13.0–22.5s：`[1] The camera pans to the left, revealing <person_h-10> standing...`（角色名此时还可能不一致）。
-2. **Reduce(角色归一化, VLM)** → 全视频统一为 `<person_d-10>` 等并回写（即下载到的最终 JSON）。"主角" = 出现最频繁者 `person_d-10`（321 次）。
+2. **Reduce(角色归一化, VLM)** → 全视频统一为 `<person_d-10>` 等并回写（即下载到的最终 JSON）。"主角" = 出现最频繁者 `person_d-10`（`<person_d-10>` 形式 321 次）。
 3. **Map(意图分析, GPT-4o)** → 读 32-scene/段聚合 caption，定位含"sticks / incense burner / 主角放东西"的候选 scene（概览图标注命中 `10:45, 10:50`，`40:40` 为干扰段）。
 4. **Reduce → Goal-Aware**：GPT-4o 提出 `vlm.query("How many incense are put into the burner?")`，对候选 scene Local 密集采帧让 Gemini 数 stick 数 → 推出 **[Answer]: D(1)**。
 

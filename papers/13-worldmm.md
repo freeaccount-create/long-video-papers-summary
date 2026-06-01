@@ -24,9 +24,9 @@
   ```json
   {"start_time":"11094300","end_time":"11095800","text":"I hold my phone ... \"Okay, then we need a stopwatch.\" ...","date":"DAY1","video_path":"data/EgoLife/A1_JAKE/DAY1/DAY1_A1_JAKE_11094208.mp4"}
   ```
-  时间编码为整数 `day+HHMMSSFF.zfill(8)`（`episodic/memory.py:30-35` `timestamp_int`）。QA 行含 `question/choice_a..d/answer`，按 video 分组逐题作答（`eval.py:118-129`）。
+  时间编码为整数 `day+HHMMSSFF.zfill(8)`（`episodic/memory.py:30-35` `timestamp_int`）。QA 行含 `question/choice_a..d/answer`，按 video 分组逐题作答（EgoLifeQA 加载/判分见 `eval/eval_egolife.py:248-258`）。
 - **三类记忆表示**：
-  - **Episodic**：多时间尺度文本 caption 条目 `CaptionEntry`（`episodic/memory.py:18-41`），粒度 `10sec/30sec/3min/10min/1h`（`memory.py:81`），每粒度一个 HippoRAG 事件图索引。
+  - **Episodic**：多时间尺度文本 caption 条目 `CaptionEntry`（`episodic/memory.py:18-41`），粒度 `10sec/30sec/3min/10min/1h`（`episodic/memory.py:81`），每粒度一个 HippoRAG 事件图索引。
   - **Semantic**：知识图谱三元组 `SemanticTripleEntry(subject,predicate,object,timestamp)`（`semantic/memory.py:18-39`），按时间戳累积更新，存为 `{timestamp:{consolidated_semantic_triples:[[s,p,o],...]}}`。
   - **Visual**：`VideoClipEntry`（`visual/memory.py:20-43`）= VLM2Vec 视觉 embedding（`.pkl`，关键词语义检索）+ 30s clip 元数据/时间戳（精确定位后按 1fps 抽帧）。
 
@@ -34,8 +34,8 @@
 
 ## 3. 完整方法流程（三阶段）
 
-**Stage 1 — 多模态记忆构建（离线，`preprocess/build_memory.py`，`script/3_build_memory.sh`）**
-- Episodic：`generate_fine_caption_egolife.py` 生成 30sec caption → `multiscale.py:39-117`（windows `180,600,3600`→`3min/10min/1h`，LLM 逐级摘要，`perspective=egocentric`）→ `extract_episodic_triples.py`（OpenIE 事件三元组）。索引：每粒度一个 HippoRAG（`episodic/memory.py:120-127, 186-233`）。
+**Stage 1 — 多模态记忆构建（离线，`preprocess/` 下多脚本，由 `script/3_build_memory.sh` 串联编排）**
+- Episodic：`generate_fine_caption_egolife.py` 生成 30sec caption → `multiscale.py:39-117`（windows 由 `script/3_build_memory.sh` 传入 `180,600,3600`→`3min/10min/1h`；`multiscale.py` 内置默认为 `30,180,600`，LLM 逐级摘要，`perspective=egocentric`）→ `extract_episodic_triples.py`（OpenIE 事件三元组）。索引：每粒度一个 HippoRAG（`episodic/memory.py:120-127, 186-233`）。
 - Semantic：`extract_semantic_triples.py` 抽高层三元组 → `consolidate_semantic_memory.py`（`semantic_consolidation.py:23-93`：embedding 找相似已有三元组，阈值 0.6，LLM 合并/去重，累积更新成 habit/relation 知识）。
 - Visual：`extract_visual_features.py` 用 VLM2Vec-V2 对 30s clip 抽特征 → `visual_embeddings.pkl`。
 - 多时间尺度索引：检索时各粒度分别取候选（`episodic/memory.py:247-322`，默认 `30sec:10,3min:5,10min:5,1h:3`）。

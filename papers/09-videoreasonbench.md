@@ -24,7 +24,7 @@
 
 **3 级推理 → 6 个 `dim`**（每类各 40 条/dim；分组见 `show_results.py:44`）：
 - **L1 Recall（回忆可见操作）**：`order_operation`、`counting_operation`
-- **L2 Infer（推断不可见 latent state）**：`order_state`(代码归 `infer_state`)、`comparison_state`
+- **L2 Infer（推断不可见 latent state）**：`order_state`(hrd/cup/grid/card) 与 `counting_state`(file_sys/chip) 两个互斥维度——`show_results.py:44` 把二者统一归入报告口径的 `infer_state`、`comparison_state`
 - **L3 Predict（超出视频的预测）**：`prediction_state`、`prediction_operation`
 
 **latent state 编码**：每条样本带 `states` 数组（初始状态及每步操作后的完整棋盘快照，length=`num_operation+1`），`moves` 记操作序列，`visible_time ∈ {start,end}` 指明 latent state（初/末态）哪端在视频中可见、另一端被蓝色遮罩。判分取"可见端"为已知起点：`states[0 if visible_time=='end' else -1]`（`eval_api.py:161`）。`hrd` 棋盘为 3×3/4×4 矩阵，`0`=空格；答案行 `a/b/c` 映射到矩阵 `a→最底行`（`eval_utils.py:489-500`）。

@@ -16,6 +16,7 @@
 
 **自建 MultiClip-Bench**（首个多镜头 multi-shot 视频数据集，含训练集 + 人工校验测试集）：
 - **视频来源**（行58）：Kinetics-710、VideoChatGPT、VideoChat、YouCook2、NExT-QA、WebVid、EgoQA，过滤后约 6.7k 视频。
+- **多镜头粗到精筛选管线**：先按时长粗筛（保留 **≤2 分钟**的短视频），再用 **OC-SORT** 做人物 ID 跟踪、保留 **ID switch >5** 的真·多镜头视频，最后用 **Gemini-1.5-Pro-flash** 按双标准（是否多镜头 + 是否含人物身份变化）精筛。
 - **描述型标注**（行56-58）：每条含三要素——**keyframe description（带 person ID）**、**character information（人物特征/动作）**、**dense caption**；共 23k 视频-文本对。管线：PySceneDetect 选关键帧 → LLaVA-1.5 初描述 → Gemini 结合原视频精修（识别 person ID 变化与行为切换）→ Gemini 产 dense caption 与 character info。
 - **QA 格式**（行59,65）：GPT-4 每视频生成 10 个 QA → 精修保留 4-6 个 → 加 3 个错误选项转**多选题**。四类问题：**consistency（一致性/重识别）、short-frame（短时段事件）、unexpected content、others**。训练集 **45.5k**、测试集 **2.75k**（无重叠）。
 - **外部训练数据**（行400-401）：对齐阶段 LAION-CC-SBU 558K + Valley 702K；指令阶段 LLaVA-v1.5 665K + Video-ChatGPT 100K + VideoChat2 326K + Perception/STAR 27K + 自建 MultiClip 68K。
@@ -40,7 +41,7 @@
 受 Conditional-DETR 启发，把帧级与实例级信息作为 anchors **加到 learnable query**：实例 token `IP∈ℝ^{V×D}`，与 8 帧 FT 拼接得 `VT∈ℝ^{8×(X×2)×D + V×D}`（8×10 frame + 80 instance = 160 token/slice）。`VT` 加到 learnable queries 引导其在 **cross-attention**（query 作 Q，编码器视觉特征作 K/V）中聚合视频特征，输出经 **MLP** 投影对齐文本空间，再与文本拼接送 LLM。
 
 ### Token 压缩（行461-464）
-每 slice 输出 **160** token，对比 full-projection 8×256=2048，降到基线 **<10%**，训练时间减 75%。
+每 slice 输出 **160** token，对比 full-projection 8×256=2048，降到基线 **<10%**；其中**第一（对齐）阶段训练时间减约 75%**，整体训练时间约减半。
 
 ### 训练（行399-401）
 两阶段（沿用 Video-LLaVA）：① 模态对齐预训练，仅训视觉对齐模块（AdamW lr=1e-3，batch 256，1 epoch，8 帧@224）；② 指令微调，冻结视觉编码器、微调全部 LLM（batch 128，采样帧 8→16）。**损失**：标准自回归语言建模损失（next-token CE，对答案 token），检测器二分类用于打分定位质量。
@@ -73,7 +74,7 @@
 ## 6. 创新点
 
 1. **MultiClip-Bench 数据集与自动标注引擎**：首个多镜头视频数据集，提出 keyframe description(带 person ID) + character information + dense caption 三要素标注，PySceneDetect+LLaVA-1.5+Gemini+GPT-4 全自动管线，专攻跨镜头人物一致性与短帧事件。
-2. **Instance Prompt + IPFormer 连接器**：检测器+RoI pooling+跨帧余弦聚类显式抽取并聚合实例级特征，作为 anchor 注入 learnable query 引导 cross-attention，把实例身份信息无损带过场景切换，解决"实例身份遗忘"与"短时人物被淹没"。
-3. **高效注意力压缩**：以 anchor-guided Q-Former 取代 full projection，token 压到基线 <10%（每 slice 160），训练时间减 75%，性能反超 full-projection。
+2. **Instance Prompt + IPFormer 连接器**：检测器+RoI pooling+跨帧余弦聚类显式抽取并聚合实例级特征，作为 anchor 注入 learnable query 引导 cross-attention，**显式保留地**把实例身份信息带过场景切换（论文措辞为 "reduces key feature loss"，非"无损"），解决"实例身份遗忘"与"短时人物被淹没"。
+3. **高效注意力压缩**：以 anchor-guided Q-Former 取代 full projection，token 压到基线 <10%（每 slice 160），第一阶段训练时间减约 75%（整体约减半），性能反超 full-projection。
 
 > 核对：各数值（X=5、V=80、M<10、阈值0.9、N=256+1、160 token/slice）取自论文行78-84；两阶段超参取自行399-401；组件取自行397-398。无源码，file:line 为 HTML 纯文本行号。

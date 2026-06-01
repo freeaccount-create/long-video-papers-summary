@@ -2,7 +2,9 @@
 
 > NeurIPS 2025 · [arXiv 2510.06077](https://arxiv.org/abs/2510.06077) · [项目页](https://vision.cs.utexas.edu/projects/video-ver/)
 
-> **无公开源码**：项目页 "Code" 按钮指向占位链接 `https://github.com/`，未指向真实 repo；GitHub 搜索无对应仓库。本文**全部基于 arXiv 论文 2510.06077**（已抓取全文），无 file:line 可引，统一以「paper.txt:N」与公式作引。
+> **无公开源码**：项目页 "Code" 按钮指向占位链接 `https://github.com/`，未指向真实 repo；GitHub 搜索无对应仓库。本文**全部基于 arXiv 论文 2510.06077**（已抓取全文），无 file:line 可引。
+
+> **引用说明**：下文以「paper.txt:N」标注的行号源自本地抓取的论文纯文本快照，**仅作章节定位的近似指针**——抓取版本不同会漂移，请以同段引用的**公式编号 / 小节内容**为准（已逐条经论文正文核对，内容无误）。
 
 ---
 

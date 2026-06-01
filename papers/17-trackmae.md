@@ -15,12 +15,12 @@
 
 ## 2. 数据来源与真实格式
 
-- **预训练**：Kinetics-400（K400），ViT-B；消融用子集 `K400_s` + ViT-S；可扩展至 K700。
+- **预训练**：Kinetics-400（K400）与 Something-Something V2（in-domain），ViT-B；消融用子集 `K400_s` + ViT-S；可扩展至 K700。
 - **下游评测**（6 个）：K400、Something-Something V2、UCF-101、HMDB-51、FineGym、SEVERE benchmark。
 - **真实样本字段**：一段短视频 clip
   - 张量 `V ∈ R^{T×H×W×3}`（按 VideoMAE 协议 T=16 帧、224×224）。
   - tubelet 切分（`2×16×16`，t=2,p=16），token 数 `N=(T/t)·(H/p)·(W/p)`。
-  - **运动目标**（在线生成，非数据集自带）：CoTracker3 对每个 patch 中心点跨帧跟踪，得位移轨迹 `M ∈ R^{T×(H/p)×(W/p)×2}`（2=x,y 位移）作为重建监督。
+  - **运动目标**（在线生成，非数据集自带）：CoTracker3 以**第一帧**的均匀网格中心点为 query 点，向后跨帧跟踪，得位移轨迹 `M ∈ R^{(T/t)×(H/p)×(W/p)×2}`（时间维与 tubelet 对齐为 T/t=8，2=x,y 位移）作为重建监督。
 
 ---
 
@@ -31,7 +31,7 @@
 **(a) Tubelet 嵌入**：3D conv 将 `2×16×16` tubelet 映射为 token，加固定位置编码，得 `T={τ_i}, τ∈R^D`。
 
 **(b) Mask 策略**：
-- 基线：随机 tube masking，token 级 Bernoulli，高比例 **90%**。
+- 基线：随机 tube masking，token 级 Bernoulli，高掩码比例（像素重建 **90%**，CLIP 特征重建 **80%**）。
 - **创新 — motion-aware masking**：用 CoTracker3 轨迹算每个 query 点时间平均位移 `M̄` 作采样分布；分 high-motion / low-motion 两个 uniform bins，用 motion ratio `ρ_motion=50%` 控制每 bin 抽取可见 token 数，保证可见 token 同时覆盖动/静区域（随机 tube masking 为其特例）。
 
 **(c) 编码器**：标准 ViT（ViT-B 主 / ViT-S 消融），只编码可见 token `Z=Φ(T^visible)`。
@@ -56,12 +56,12 @@
 
 ## 4. 一条真实数据的全过程（K400 一段 16 帧 224×224 clip `V`）
 
-1. **运动目标提取（上分支）**：取奇数帧喂 CoTracker3，对 14×14 网格每 patch 中心点跟踪 → 逐 token (x,y) 位移 `M`；上采样 υ=2 → 28×28 密集位移目标。同时算时间平均位移 `M̄` 作 mask 采样分布。
-2. **Patchify + Mask（下分支）**：`V` 经 3D conv 切成 `2×16×16` tubelet token（N=8×14×14=1568）。按 `M̄` 的 high/low-motion 两 bin、`ρ_motion=50%` 抽样可见 token，掩掉 90%，得 `T^visible`（约 157）。
+1. **运动目标提取（上分支）**：每隔一帧（stride-2）喂 CoTracker3，以第一帧 14×14 网格中心点为 query 跨帧跟踪 → 逐 token (x,y) 位移 `M`（时间维 T/t=8）；上采样 υ=2 → 28×28 密集位移目标。同时算时间平均位移 `M̄` 作 mask 采样分布。
+2. **Patchify + Mask（下分支）**：`V` 经 3D conv 切成 `2×16×16` tubelet token（N=8×14×14=1568）。按 `M̄` 的 high/low-motion 两 bin、`ρ_motion=50%` 抽样可见 token，掩掉 80%（CLIP 特征目标；像素目标则 90%），得 `T^visible`（约 314）。
 3. **编码**：仅 `T^visible` 进 ViT-B → `Z=Φ(T^visible)`（仅 10% token）。
 4. **解码 / 预测**：`Z`+`[MASK]`+位置编码 → `Ψ_spatial` 输出 `Ĉ`（masked token 的 CLIP 特征/像素），`Ψ_motion` 输出 `M̂`（位移）。
 5. **Loss**：对 masked token 算 `L_feature`(或 `L_pixel`) 与 `L_motion`，加权 `L=L_spatial+λ·L_motion`（CLIP λ=0.25），反传更新 Φ、Ψ_spatial、Ψ_motion（CoTracker3 与 CLIP 冻结）。
-6. **下游**：800 epoch 后冻结 Φ 做 linear probing 或全微调；motion 分支丢弃。
+6. **下游**：800 epoch 后两种用法——linear probing（**冻结 Φ**、只训分类头）或 full finetuning（**不冻结 Φ**、端到端微调）；两者均丢弃空间/运动解码器。
 
 ---
 

@@ -53,7 +53,7 @@
 入口 `m3_agent/control.py`，vLLM 加载 `M3-Agent-Control`（L141）。多轮循环 `total_round=5`：
 - system prompt 要求每轮输出 `Action: [Answer]/[Search]` + `Content:`，可 `<think>` 推理（`enable_thinking=True`）。
 - `consumer`（L100-132）解析：`[Answer]`→终止；`[Search]`→调 `retrieve.search` 检索记忆，结果作 `user` 消息 "Searched knowledge: ..." 追加进对话。
-- 检索 `retrieve.py:search`（L76-275）：query 经 `back_translate`（把 `character_i` 展开成所有 face/voice 变体）→ text-embedding-3-large 编码 → `search_text_nodes` 算 clip 级相似度 → 取 topk clip 的记忆，`translate` 再把实体 ID 回译。两种模式：`mem_wise`（查"character id↔姓名"映射）与 clip-wise（普通事件检索）。最后一轮强制 `[Answer]`。答案用 GPT-4o evaluator 判对错。
+- 检索 `retrieve.py:search`（L237-275，底层 `retrieve_from_videograph` L76-136）：query 经 `back_translate`（把 `character_i` 展开成所有 face/voice 变体）→ text-embedding-3-large 编码 → `search_text_nodes` 算 clip 级相似度 → 取 topk clip 的记忆，`translate` 再把实体 ID 回译。两种模式：`mem_wise`（查"character id↔姓名"映射）与 clip-wise（普通事件检索）。最后一轮强制 `[Answer]`。答案用 GPT-4o evaluator 判对错。
 - **训练**（外部 repo + 论文 §4.4）：control 策略从基座 Qwen3 用 **DAPO** 训练；reward = GPT-4o 评测对=1/错=0（式(1)）；组内 G 条轨迹做 group-normalized advantage `(R_i-mean)/std`（式(2)），只对生成 token 算 loss，DAPO 带 clip-higher 等。论文 Table 7 证实 DAPO 全面优于 GRPO 且收益随规模放大（32b +10.0%/8.0%/9.3%）。
 
 ---
@@ -78,7 +78,7 @@
 | 人脸聚类 | HDBSCAN（precomputed cosine） | `src/face_clustering.py:49` |
 | ASR + 说话人分段 | Gemini-1.5-pro-002 | `voice_processing.py:148` |
 | 声纹 embedding | ERes2NetV2（192d，speakerlab） | `voice_processing.py:35-47` |
-| 记忆生成 MLLM | M3-Agent-Memorization = Qwen2.5-Omni-7b SFT | `memorization_memory_graphs.py:25` |
+| 记忆生成 MLLM | M3-Agent-Memorization = Qwen2.5-Omni-7B SFT | `configs/processing_config.json`、`README.md:184` |
 | 文本 embedding | OpenAI text-embedding-3-large | `retrieve.py:96` |
 | 控制策略 MLLM | M3-Agent-Control = Qwen3-32b + DAPO（vLLM） | `control.py:32,141` |
 | RL 算法 | **DAPO**（reward=GPT-4o 0/1，group-normalized advantage） | 论文 §4.4 |
@@ -90,4 +90,4 @@
 
 1. **Entity-centric 多模态长时记忆图 + 双层记忆**：以人脸/声纹实体节点为锚，episodic（原子事件）与 semantic（高层结论/世界知识）双层文本节点挂在实体上，semantic 随时间 reinforce/weaken。**消融：移除语义记忆使准确率降 17.1%/19.2%/13.1%**（robot/web/VideoMME-long）。
 2. **在线跨模态身份一致性**：MLLM 生成 `Equivalence: <face>,<voice>` + 并查集统一为 `character_i`，并用 meta-clip 自动挖掘全局 face-voice 映射。去掉 equivalence 降 2.0%/2.6%/9.1%。
-3. **DAPO 强化学习驱动的多轮迭代检索**：把"思考-检索-再思考"建模为 RL（reward=最终答案 GPT-4o 判对），DAPO 优于 GRPO 且收益随规模放大；整体超越 Gemini-1.5-pro+GPT-4o 最强 prompting baseline 6.7%/7.7%/5.3%。
+3. **DAPO 强化学习驱动的多轮迭代检索**：把"思考-检索-再思考"建模为 RL（reward=最终答案 GPT-4o 判对），DAPO 优于 GRPO 且收益随规模放大；整体超越 Gemini-1.5-pro+GPT-4o 最强 prompting baseline 8.2%/7.7%/5.3%（robot/web/VideoMME-long，`README.md:15`）。

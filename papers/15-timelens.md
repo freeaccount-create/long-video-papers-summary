@@ -1,6 +1,6 @@
 # 15 · TimeLens（视频时序定位：数据质量 + 交错时间戳 + thinking-free RLVR）
 
-> CVPR 2026 · [项目页](https://timelens-arc-lab.github.io/) · 官方代码：[github.com/TencentARC/TimeLens](https://github.com/TencentARC/TimeLens)
+> CVPR 2026 · [arXiv 2512.14698](https://arxiv.org/abs/2512.14698) · [项目页](https://timelens-arc-lab.github.io/) · 官方代码：[github.com/TencentARC/TimeLens](https://github.com/TencentARC/TimeLens)
 
 基于**官方源码逐行分析**写成（克隆成功，约 724K；仅代码，权重/视频/标注 JSON 从 HF 下载）。main 分支为 TimeLens-8B / Qwen3-VL；TimeLens-7B / Qwen2.5-VL 在 `train` 分支（`README.md:403`）。
 
@@ -49,7 +49,7 @@
 **(b) Thinking-free RLVR + IoU reward**：
 - **thinking-free**：GRPO 仅用 `--reward_funcs tiou`（`run_grpo_qwen3_8b.sh:113`），**不启用** format（`<think>...</think>`）奖励；prompt 直接要求输出 `"The event happens in <start> - <end> seconds"`（`grounding.py:13-16`），无思维链。`beta=0.0`（`params.py:113`）→ 无 KL 项、不加载 reference model（`grpo_trainer_qwenvl.py:617,648,1536-1537`）。
 - **IoU reward**：`tiou_reward`（`reward_funcs.py:19-48`）从 completion 提取答案 → `extract_time` 解析时间段 → 与 GT span 算时序 IoU 作 reward。IoU 定义 `max(min1-max0,0)/(max1-min0)`（`parser.py:21-30`）；非法/解析失败/start≥end → 0（`reward_funcs.py:36-41`）。
-- **GRPO 更新**：每 prompt 采样 `num_generations=8`（`params.py:124`），组内归一化优势 `A = r - mean_group`（默认 `scale_rewards=False`，不除 std；`grpo_trainer:1380-1389`）；PPO 式 clip 目标、`loss_type=bnpo`（:1527-1543）。lr=1e-6、constant、`max_steps=100`、freeze vision tower（`run_grpo:97-123`）。
+- **GRPO 更新**：每 prompt 采样 `num_generations=8`（`params.py:124`），组内归一化优势 `A = r - mean_group`（脚本显式传 `--scale_rewards False`，故不除 std；TRL 默认值本为 True，`grpo_trainer:1380-1389`）；PPO 式 clip 目标、`loss_type=bnpo`（:1527-1543）。lr=1e-6、constant、`max_steps=100`、freeze vision tower（`run_grpo:97-123`）。
 
 **(c) 数据重标/难度采样**（`README.md:327-380` 三阶段）：① 在 30K 采样上 SFT；② 用 SFT 模型对全量 100K 离线推理、对每条算 IoU 作难度（`infer_..._filter_data.py:150-164`，写回 `pred/answer/iou`）；③ GRPO 从 SFT ckpt 起训，按 IoU 做 Gaussian 难度采样（`fixed_gaussian_sampling=True, mean=0.05, std=0.2`，`run_grpo:84-87`；实现 `grounding.py:224-247`，按时长分桶 + 按 IoU 高斯加权采样做逆密度均衡）。
 
@@ -82,4 +82,4 @@
 2. **Interleaved textual timestamp encoding**：系统对比位置编码/视觉叠加/文本编码后，发现"原始时间戳作文本前缀交错插在各帧视觉 token 前"最有效且最简洁（`evaluation/utils.py:14-17`）。
 3. **Thinking-free RLVR + 训练配方**：证明对感知主导的 VTG，无思维链、以时序 IoU 为唯一可验证奖励的 GRPO（beta=0、无 reference、不启用 format reward）性能与效率最优，前置 SFT 无显著增益；并给出奖励平台期早停、基于离线 IoU 难度的高斯采样两条配方。
 
-> **核对说明**：file:line 来自实际克隆源码，真实样本取自 HF 原始 jsonl/json。leaderboard（`static/js/index.js:158-277`）可核实的结论是开源 **TimeLens-8B**（Qwen3-VL-8B 基座）平均超过 **GPT-5**（mIoU Charades 55.2 vs 40.5 / ActivityNet 53.2 vs 42.9 / QVHighlights 65.5 vs 56.8）与 Gemini-2.5-Flash，但仍低于其标注器 Gemini-2.5-Pro。公开代码/数据/leaderboard 中**不存在 "TimeLens-3B" 条目**，故"3B 反超 7B"之说无法核实，已据实标注。
+> **核对说明**：file:line 来自实际克隆源码，真实样本取自 HF 原始 jsonl/json。leaderboard（`static/js/index.js:158-277`）可核实：开源 **TimeLens-8B**（Qwen3-VL-8B 基座）平均超过 **GPT-5**（mIoU Charades 55.2 vs 40.5 / ActivityNet 53.2 vs 42.9 / QVHighlights 65.5 vs 56.8）与 Gemini-2.5-Flash；相对其标注器 **Gemini-2.5-Pro** 总体仍偏低，但在 **Charades 上 mIoU 55.2 已反超 Pro 的 52.8**（ActivityNet/QVHighlights 仍低于 Pro）。论文 **Table 6（消融）** 中存在 **TimeLens-3B** 条目，结论是 3B 即可显著超过更大的 **Qwen2.5-VL-7B 基线**（注意是超过基线而非 TimeLens-7B）；公开仓库代码/leaderboard 未含 3B 权重与条目，故 3B 数据以论文表格为准。

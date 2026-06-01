@@ -43,7 +43,7 @@
 1. **agent 选时间窗 + 下达指令**：`video_question_get_single_related_time_with_coarse_memory`（`llm_roles.py:173`）选出**单个**最相关时间段，并给出"让 caption 模型重点描述什么"的 `Instruction`，排除已探索段（`excluded_time_periods`）。
 2. **细记忆抽取**（Qwen2.5-VL 再跑，高分辨率 `fine_memory_max_pixels=512*28*28`）：`split="entire"`（整窗一段）与 `split="divided"`（`fine_sampling_fps=2`、子段 ~10s）（`vlm_roles.py:115-198`）。
 3. **超细层触发**：选中窗口长度恰为 `minimal_duration=10`s → `is_super_fine=True`，改用每 1s 一段做帧级精描，存入 `super_fine_memory_history`（`demo.py:206-216`）。
-4. **带细记忆再作答**：`video_question_answer_with_coarse_and_fine_memory`（`llm_roles.py:135`）把 粗+细(entire/divided)+超细记忆**按时间排序嵌套拼接**（`LLMs/utils.py:129-158`）。`Confidence==True` 返回。
+4. **带细记忆再作答**：`video_question_answer_with_coarse_and_fine_memory`（`llm_roles.py:135`）把 粗+细(entire/divided)+超细记忆**按时间排序嵌套拼接**（`LLMs/utils.py:126-158`，排序在 126 行）。`Confidence==True` 返回。
 
 **Phase 4 — 强制作答**：5 轮仍不自信 → `must_answer`（`llm_roles.py:154`）强制给最优答案。
 

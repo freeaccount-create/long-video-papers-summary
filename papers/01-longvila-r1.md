@@ -39,6 +39,8 @@
 ```
 字段固定为：`problem_id / problem / data_type / problem_type / reasoning（CoT，仅 SFT 用）/ videos（相对路径）/ answer（<answer>X</answer>）`。
 
+> 注：`step6_reformat_reasoning_data.py` 生成时把 `problem_type` **硬编码为 `general`**（line 80-88）；上面样本中的 `"goal"` 来自 HF 发布版 `test.jsonl` 的另行标注，并非 step6 代码产物。
+
 ---
 
 ## 3. 完整训练流程
@@ -47,20 +49,20 @@
 - **① CoT-SFT（冷启动）**：用 `reasoning` 字段做监督，让模型学会写 `<think>…</think><answer>…</answer>` 的推理链。
 - **② RL（本 repo 主体）**：默认算法 **GRPO**。
 
-**RL 主循环**在 `verl/trainer/ray_trainer.py`：rollout → 算 reward → `compute_advantage(adv_estimator=GRPO)`（`ray_trainer.py:134`）→ `compute_grpo_outcome_advantage`（`core_algos.py:151`）对同一 prompt 的 n 条采样做**组内均值/方差归一化**（`core_algos.py:175,189` `scores[i]=(scores[i]-id2mean)/(id2std+eps)`）→ 带 KL 的 PPO-clip 更新（`config.yaml:22-26`，`use_kl_loss=true, kl_penalty=low_var_kl`）。
+**RL 主循环**在 `verl/trainer/ray_trainer.py`：rollout → 算 reward → `compute_advantage(adv_estimator=GRPO)`（`ray_trainer.py:134`）→ `compute_grpo_outcome_advantage`（`core_algos.py:151`）对同一 prompt 的 n 条采样做**组内均值/方差归一化**（`core_algos.py:186-190` `scores[i]=(scores[i]-id2mean)/(id2std+eps)`）→ 带 KL 的 PPO-clip 更新（`config.yaml:24-25`，`use_kl_loss=true, kl_penalty=low_var_kl`）。
 
 **Reward 函数**（视频用 `examples/reward_function/r1v.py`）：
 ```python
 # 格式分：必须 <think>…</think><answer>…</answer>
-format_match = re.fullmatch(r"<think>.*?</think>\s*<answer>.*?</answer>", response, re.DOTALL)   # r1v.py:21
+format_match = re.fullmatch(r"<think>.*?</think>\s*<answer>.*?</answer>", response, re.DOTALL)   # r1v.py:21-24
 # 准确分：抽 <answer> 内首字母，mathruler.grade_answer 与 GT 比对                                # r1v.py:27-37
 overall = 0.9*accuracy + 0.1*format                                                              # r1v.py:47
 ```
 开放式 QA 走 LLM-judge（`vllm_rollout_spmd.py:286-307`，GPT 输出 `"yes"→1.0`）。
 
 ### MR-SP（核心创新）= 序列并行 + 视频 embedding 缓存
-- **序列并行（Ulysses）**：`verl/utils/sequence_parallel/`。actor 前向把 (video+text) 长序列按 SP rank 切片：`dp_actor.py:413` 调 `prepare_inputs_for_sp_mm`（定义于 `dp_actor.py:116`），longvila 配置 `ulysses_size=4`。
-- **embedding 缓存**：离线 `verl/utils/cache_video_embeds_vila.py:60` 用 vision encoder 算好视频 embed 并 `torch.save` 成 `.pt`；训练时 `dataset.py:328` 命中缓存则只放 1 帧占位、把缓存 embed 塞进 `multi_modal_data`，rollout 端 `use_cached_embeds` 跳过重复视觉编码（`vllm_rollout_spmd.py:227`）。号称 **2.1× 加速**。
+- **序列并行（Ulysses）**：`verl/utils/sequence_parallel/`。actor 前向把 (video+text) 长序列按 SP rank 切片：`dp_actor.py:413` 进入 ulysses 分支调 `prepare_inputs_for_sp_mm`（定义于 `dp_actor.py:115`），longvila 脚本设 `ulysses_size=4`（`examples/new_supports/longvila_7b_video_grpo.sh:13`；config.yaml 默认 1）。
+- **embedding 缓存**：离线 `verl/utils/cache_video_embeds_vila.py`（`_embed_media_tokens:61` 算 embed、`:64` `torch.save` 成 `.pt`）；训练时 `dataset.py:328` 命中缓存则只放 1 帧占位、把缓存 embed 塞进 `multi_modal_data`，rollout 端 `use_cached_embeds` 跳过重复视觉编码（`vllm_rollout_spmd.py:227`）。号称 **2.1× 加速**。
 
 ---
 

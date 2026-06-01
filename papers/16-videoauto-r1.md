@@ -2,7 +2,7 @@
 
 > CVPR 2026 · [arXiv 2601.05175](https://arxiv.org/abs/2601.05175) · [项目页](https://ivul-kaust.github.io/projects/videoauto-r1) · 官方代码：[github.com/IVUL-KAUST/VideoAuto-R1](https://github.com/IVUL-KAUST/VideoAuto-R1)
 
-基于**官方源码逐行分析**写成（克隆成功，约 2.9M，Apache-2.0；标注 JSON 在 HF `IVUL-KAUST/VideoAuto-R1-Data`，repo 内无 json）。Meta AI / KAUST / Princeton，一作 Shuming Liu。
+基于**官方源码逐行分析**写成（克隆成功，约 2.9M，Apache-2.0；标注 JSON 在 HF `IVUL-KAUST/VideoAuto-R1-Data`，repo 内无 json）。出自 KAUST IVUL 组（一作 Shuming Liu）。
 
 ---
 
@@ -33,7 +33,7 @@ TVG（Charades）：`{"description","timestamps":[s,e],"video"}`（`data_rl.py:5
 **范式 = "Thinking Once, Answering Twice"，GRPO 训练**，rl_mode=`answer_twice_rl`。base = Qwen2.5-VL-7B / Qwen3-VL-8B。
 
 - **System prompt 强制模板**（`data_rl.py:20-27`）：`\boxed{初答}<think>推理</think>\boxed{复核答}`；若无法直答则首框输出 `\boxed{Let's analyze the problem step by step.}`。
-- **采样**：每 prompt 用 vLLM 生成 `G=16` 条 completion。
+- **采样**：每 prompt 用 vLLM 生成 `G=16` 条 completion（`grpo_vllm_trainer_qwen2_5_vl.py:1209-1217`）。
 - **奖励**（3 函数，权重 `0.9/1.1/1`，`reward.py:167-174`）：
   1. `accuracy_boxed1`（权 0.9）：取**第一个** `\boxed`（`<think>` 之前）判分（`reward.py:91-118`）；
   2. `accuracy_boxed2`（权 1.1）：取**第二个** `\boxed`（`</think>` 之后）判分（`reward.py:121-153`）；含 **fallback 奖励**：复核答正确（reward>0.7）且初答是 `Let's analyze...`（诚实选择需思考）时额外加 `0.3/1.1`，惩戒"虚假初猜"（`reward.py:144-147`）；
@@ -53,7 +53,7 @@ TVG（Charades）：`{"description","timestamps":[s,e],"video"}`（`data_rl.py:5
 2. **加载**（`data_rl.py:287-334`）：拼问句+Options；`extract_answer` 取 `B`；`problem_type→"exact_match"`；构造 messages（system=answer-twice，user=[video+text]）。
 3. **采样**：vLLM 生成 16 条，如 `\boxed{B}<think>The person first... so it's B</think>\boxed{B}`。
 4. **奖励**：boxed1 取首框 `B`==`B`→1.0×0.9；boxed2 取末框 `B`→1.0×1.1（首框非 `Let's analyze` 不触发 fallback）；format 合法→1.0×1。该条 `rewards=3.0`。
-5. **优势**：与同组 15 条标准化 `(3.0−mean)/(std+1e-4)`（:1345）→ 裁剪+KL 损失更新策略。
+5. **优势**：与同组 15 条标准化 `(3.0−mean)/(std+1e-4)`（:1346）→ 裁剪+KL 损失更新策略。
 6. **推理时**：若首框 `B` 置信度 ≥0.98 直接早退输出 `B`（不生成 CoT），否则触发 `<think>` 推理后输出复核答。
 
 ---

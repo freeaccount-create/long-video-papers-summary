@@ -10,7 +10,7 @@
 
 - `inference.py`：评测主入口（构造 prompt、调模型、抽答案、判分、统计）。
 - `video_bench/video_process.py`：抽帧/`smart_resize`。
-- `video_bench/registry.py`：模型注册表；`video_bench/models/*.py`：20+ 被测模型封装。
+- `video_bench/registry.py`：模型注册表；`video_bench/models/*.py`：20 个被测模型封装（另有 `basic_model.py` 基类）。
 - `download_video.sh`：`yt-dlp` 按 `dataset/test_video_ids.txt` 下视频。
 
 > 数据不在 repo 内：题目 `questions.jsonl` 与视频 tar 仅托管于 HF。
@@ -40,13 +40,13 @@ HF `questions.jsonl` 实测 **269 行 = 269 个视频**，每行 `{video_id: [8 
 
 ## 3. 完整评测流程（全部在 `inference.py`）
 
-1. **载题 + 构造选择题**：`load_questions_from_jsonl`(:194) 逐行读，`convert_to_multiple_choice`(:160) 把 `distractors+answer` **`random.shuffle`**(:163)，`chr('a'+i)` 生成 a/b/c/d(:166)，记录 `correct_option` 字母(:185)。题面 `format_question`(:156) 拼 `问题？\nA....\nB....` 并追加固定指令 `MULTI_CHOICE_PROMPT="Answer with the option's letter from the given choices directly."`。
+1. **载题 + 构造选择题**：`load_questions_from_jsonl`(:194) 逐行读，`convert_to_multiple_choice`(:160) 把 `distractors+answer` **`random.shuffle`**(:163)，`chr(ord('a')+i)` 生成 a/b/c/d(:167)，记录 `correct_option` 字母(:187)。题面 `format_question`(:156) 拼 `问题？\na. ...\nb. ...`（选项一律小写字母） 并追加固定指令 `MULTI_CHOICE_PROMPT="Answer with the option's letter from the given choices directly."`。
 2. **抽帧**：各模型自带，如 internvl2_5 `load_video`(:151) decord 读全片、`get_index`(:133) 在 `[0,max_frame]` **均匀取 num_segments 帧**（默认 128，脚本设 32）。抽帧与题目 `answer_location` 无关——模型须自己在长视频里定位。
-3. **构造 prompt**：`process_video_questions`(:297) 用 `ffprobe` 取真实时长，把全局 `PROMPT`（`"...divided into {frame_num} evenly spaced frames spanning {duration} seconds..."`）拼到题面前；internvl 封装再加 `Frame1:<image>\nFrame2:...` 前缀。
+3. **构造 prompt**：`process_video_questions`(:297) 用 `ffprobe` 取真实时长，把全局 `PROMPT`（`"...divided into {frame_num} evenly spaced frames spanning {duration} seconds..."`）拼到题面前；internvl 封装再加 `Frame1: <image>\nFrame2: ...` 前缀（`internvl2_5.py:241`）。
 4. **模型作答**：`model.generate_video_only(...)`(:337)，贪心 `do_sample=False, max_new_tokens=1024`。
 5. **答案抽取 + 判分**：`check_answer`(:227)——**纯正则/规则，无 LLM**：优先匹配 `<answer>: X`(:236)；否则找 `(a)`/` a `/`a.` 候选字母取**最后一个**(:241-245)；无输出则**随机猜**(:231,:245)；返回 `(pred==correct_option, pred)`。
 6. **判分指标 = 多选准确率**：逐题累加 `total/correct`，按 `question_type` 与 `"total"` 统计，`correct_rate=correct/total`(:274,:433)。
-7. **LLM 兜底匹配**：**没有**。`is_text_similar`(SequenceMatcher) 已定义但在 `check_answer` 中未被调用；`Gpt` 仅作被测模型，不参与判分。
+7. **LLM 兜底匹配**：**没有**。`is_text_similar`(SequenceMatcher) 已定义但在 `check_answer` 中未被调用；判分链路不调用任何 LLM。
 
 ---
 
@@ -67,7 +67,7 @@ HF `questions.jsonl` 实测 **269 行 = 269 个视频**，每行 `{video_id: [8 
 
 ## 5. 模型 / 组件
 
-- **被测模型（20+，`video_bench/models/`）**：InternVL2/2.5、Qwen2-VL/2.5-VL、LLaVA-OneVision/Video、LongVA、LongVILA、NVILA、LongVU、MiniCPM-V/o、Aria、Phi-3.5/4、VideoLLaMA3、InternVideo2.5、Ola、mPLUG-Owl3，及闭源 `Gpt`(GPT-4o 系)、`Gemini`。
+- **被测模型（`video_bench/models/` 实测 20 个封装 + 注册名）**：InternVL2、InternVL2.5、Qwen2-VL、Qwen2.5-VL、LLaVA-OneVision、LLaVA-Video、LLaVA-Video-Image、LLaVA-Mini、LLaMA-VID、LongVA、LongVILA、NVILA、LongVU、MiniCPM-V、MiniCPM-o、Aria、Phi-3.5、Phi-4、VideoLLaMA3、Mammoth-VL。（闭源 GPT-4o/Gemini 及 mPLUG-Owl3/Ola/InternVideo2.5 仅在 `inference.py` 的 `try/except ImportError` 中尝试导入，repo **未附**其封装，默认不可跑。）
 - **抽帧/预处理**：decord（首选）/ torchvision 后备，`smart_resize` 控分辨率，`ffprobe` 取时长。
 - **判分辅助模型**：**无**——纯规则正则判分。
 

@@ -51,17 +51,17 @@
 
 **架构组装**（`apps/plm/transformer.py`，`LMTransformer(BaseTransformer)`）：`__init__` 同时构造 `tok_embeddings`(line 99)、视觉塔 `self.vision_model = PE_VisionTransformer(...)`(line 122)、connector `self.vision_projector = MLPProjector(args)`(line 123)。connector（`vision_projector/mlp.py:30-62`）= `AdaptiveAvgPooling(pooling_ratio)` → `Linear(width→dim)+GELU+Linear(dim→dim)`，把 PE 的 1536 维投到 LLM 的 4096 维。冻结策略由 `train()`(`transformer.py:128-137`)逐参数设 `requires_grad`。
 
-**视频帧采样**：`core/transforms/video_transform.py:79-130`，`load_video` 按 `sampling_fps` 抽帧，超 `max_frames` 用 `uniform_sample`，支持 `start/end_time` 截取与 `bbox_map` 画框（用于区域任务）。
+**视频帧采样**：`core/transforms/video_transform.py:79-130`，`load_video` 按 `sampling_fps` 抽帧，超 `max_frames` 用 `uniform_sample`，支持 `start/end_time` 截取；区域任务的 `bbox_map` 画框由 `__call__`(`:42-58`) + `draw_bounding_boxes`(`:137-155`) 完成。
 
 **三阶段训练**（`configs/stage_{1,2,3}/plm_8b.yaml`）：
 
 | 阶段 | 冻结 | pooling | max_seqlen | tiles/frames | LR | steps | 数据 |
 |---|---|---|---|---|---|---|---|
 | 1 warmup | LLM+PE 全冻，仅训 projector | 1 | 1280 | 1 tile, 8 帧 | 1e-4 | 8000 | 合成 SA-1B |
-| 2 | 全解冻 | 2 | 6144 | 16 tiles, 16 帧 | — | — | 大规模混合 |
+| 2 | 全解冻 | 2 | 6144 | 16 tiles, 16 帧 | 4e-5 | 35000 | 大规模混合 |
 | 3 SFT | 全解冻 | 2 | 11520 | 36 tiles, 32 帧 | 1e-5 | 21000 | SFT 混合（含 2.8M 人工标注）|
 
-初始化：LLM 载 `Llama-3.1-8B-Instruct`，视觉塔载 `PE-Core-G14-448`（`stage_1/plm_8b.yaml:73-74`）。
+初始化：LLM 载 `Llama-3.1-8B-Instruct`（`init_ckpt_path`，line 72），视觉塔载 `PE-Core-G14-448`（`vision_model_path`，line 73）。
 
 ---
 
