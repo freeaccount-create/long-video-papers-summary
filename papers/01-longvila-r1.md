@@ -85,12 +85,38 @@ multi_modal_embeds = cat([ 文本前缀 , video_embeds , response ], dim=1)   # 
 
 > 另有 `input_utils.py` 提供更细的切分原语：`extract_local_from_list`（`:26-30`，`divmod` 余数均摊的负载均衡切分）与 zigzag 变体（`:33-44`，供 Ring attention 用，使每 rank 同时拿序列首尾块、均衡因果掩码下的计算量）。
 
-#### (3) Ulysses 注意力：序列切片下如何算"全局注意力"
-切片后每 rank 只有 `seq/SP` 个 token 但持有**全部注意力头**，无法直接算需要全序列 K/V 的注意力。Ulysses 用 **all-to-all 转置**解决（`all_to_all.py:all_to_all_4D`，`monkey_patch.py` 把 HF 的 `_flash_attention_forward` 替换成 `UlyssesAttention`，`:230`）：
-1. 进 attention 前 all-to-all：`(bs, seq/SP, head, dim) → (bs, seq, head/SP, dim)`（`ulysses_attn.py:158`）——换成"持有全序列、但只算 1/SP 的头"；
-2. 每 rank 用 `flash_attn_varlen_func` 在**完整序列**上算自己那批头的注意力；
-3. 再 all-to-all 转置回 `(bs, seq/SP, head, dim)`。
-GQA 下若 `ulysses_size > num_kv_heads`，先 `expandKV` 把 KV 头复制 `sp//kv` 份再切（`ulysses_attn.py:163-165`），反向时按 query group 求和回收梯度（`all_to_all.py:76-98`）。
+#### (3) Ulysses 注意力：SP 切片之后，注意力到底怎么算
+
+这是关键问题。注意力需要**每个 query 看到全序列的 K/V**，但切片后每 rank 只持有 `S/P` 个 token——若直接在本地 K/V 上算，query 就看不到别的 rank 上的 token，结果是错的。Ulysses 的解法是**不切注意力头、只切序列**，在进 attention 的瞬间用两次 all-to-all 把张量从"序列切片/全部头"**转置**成"全序列/头切片"，算完再转回来。`monkey_patch.py:230` 把 HF 的 `_flash_attention_forward` 整个替换成 `UlyssesAttention(_ulysses_attn_varlen_func, sp_group)`。
+
+记号：SP 度 `P=4`；某 7B 模型注意力头 `H=28`、head_dim `d=128`；本 rank 切片长 `L=S/P`。
+
+**① 本地投影**：模型注意力层照常在本 rank 的 `L` 个 token 上算出 Q/K/V，形状 `(bs, L, H, d)=(bs, L, 28, 128)`——**全部 28 个头，但只有本地这 L 个 token**（`ulysses_attn.py:167-169` 转成 `(bs,H,L,d)` 布局）。
+
+**② GQA 头补齐**（`ulysses_attn.py:161-165`）：K/V 的 KV 头数若 `< P`（如 Qwen 4 个 KV 头、P=4 时恰好；若 P 更大）则 `expandKV` 把每个 KV 头复制 `P/num_kv` 份，保证 KV 头数能被 P 整除——否则切头时分不均。反向按 query group 把复制头的梯度求和回收（`ulysses_attn.py:73-100`）。
+
+**③ all-to-all #1：转置成"全序列 / 1-P 头"**（`SeqAllToAll4D(scatter_idx=2, gather_idx=1)`，`all_to_all.py:44-100`）。核心是一次 `dist.all_to_all_single` + reshape：
+```
+本地 (bs, L, H=28, d) ──reshape→ (bs, L, P=4, H/P=7, d) ──transpose(0,2)→ (P, L, bs, 7, d)
+   ──all_to_all_single(沿 P 维交换)→ 每 rank 收齐 4 段 → reshape (S=ΣL, bs, 7, d) → (bs, S, 7, d)
+```
+结果：本 rank 现在持有 **完整全局序列 S 个 token**，但**只剩 28/4=7 个注意力头**（`ulysses_attn.py:172-174` 对 Q/K/V 各做一次）。因各 rank 切片长度不等，a2a 内部先 pad 到 `max_global_length` 再 `all_gather` 真实长度、算完 unpad（`all_to_all.py:51-93`）。
+
+**④ 本地 flash 注意力（在全序列上、只算自己那 7 个头）**（`_ulysses_attn_varlen_func`，`monkey_patch.py:57-98`）：
+```
+A = flash_attn_varlen_func(Q, K, V, cu_seqlens_q, cu_seqlens_k, causal=True)
+  即对本 rank 持有的 7 个头，逐头算  softmax( Q·Kᵀ / √d  + 因果掩码 ) · V
+```
+这里 Q、K、V 都是 `(bs, S, 7, d)`——**每个 query 看到的是全序列的 K/V，所以算出来的注意力是精确的、与不切并行时逐 bit 等价**；唯一被并行拆分的是"头"这一维，而 MHA 各头本就相互独立，拆头不损失任何信息。varlen 版用 `cu_seqlens`（由全局 attention_mask 在 `ulysses_attn.py:178-215` 经 all_reduce 重建）把变长样本打包、并跳过 padding 位。输出 `A=(bs, S, 7, d)`。
+
+**⑤ all-to-all #2：转置回"序列切片 / 全部头"**（`SeqAllToAll4D(scatter_idx=1, gather_idx=2)`，`all_to_all.py:102-145`）：
+```
+(bs, S, 7, d) ──reshape→ (bs, P, S/P, 7, d) ──transpose→ (P, 7, S/P, bs, d)
+   ──all_to_all_single(沿 P 维交换)→ reshape (H=28, L, bs, d) → (bs, L, 28, d)
+```
+本 rank 拿回**自己那 L 个 token、但恢复全部 28 个头**的注意力输出，继续走本地的 out-projection / FFN。
+
+**一句话**：Ulysses 把"序列并行"在注意力这一步临时换成"头并行"——`seq/P × 全头` ⇄（a2a）⇄ `全 seq × head/P`，于是每张卡在算注意力时都能看到全序列、得到**精确**结果，而显存/算力按 `1/P` 摊薄。每个注意力层前向 2 次 a2a、反向再 2 次（`SeqAllToAll4D.backward` 把 scatter/gather 对调，`all_to_all.py:166-173`）。这与 Ring-Attention（K/V 分块沿 ring 传、在线 softmax 累加）不同路：Ulysses 通信量 `O(bs·S·H·d/P)`、与序列线性，但要求头数可被 P 整除。
 
 #### (4) 算完再拼回（gather）
 前向输出 logits 后，**只在持有 response 的末 rank 段**算局部 `log_probs`（`dp_actor.py:437-438`），再 `gather_outputs_and_unpad(log_probs, gather_dim=1, unpad_dim=1)`（`:441`）跨 SP 组 all-gather 并去掉左 padding，最后切出 `[bsz, response_length]`（`:443`）。这样梯度回传时每 rank 只持有 `1/SP` 的激活，显存和算力都摊薄。
