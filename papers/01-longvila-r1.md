@@ -61,8 +61,42 @@ overall = 0.9*accuracy + 0.1*format                                             
 开放式 QA 走 LLM-judge（`vllm_rollout_spmd.py:286-307`，GPT 输出 `"yes"→1.0`）。
 
 ### MR-SP（核心创新）= 序列并行 + 视频 embedding 缓存
-- **序列并行（Ulysses）**：`verl/utils/sequence_parallel/`。actor 前向把 (video+text) 长序列按 SP rank 切片：`dp_actor.py:413` 进入 ulysses 分支调 `prepare_inputs_for_sp_mm`（定义于 `dp_actor.py:115`），longvila 脚本设 `ulysses_size=4`（`examples/new_supports/longvila_7b_video_grpo.sh:13`；config.yaml 默认 1）。
-- **embedding 缓存**：离线 `verl/utils/cache_video_embeds_vila.py`（`_embed_media_tokens:61` 算 embed、`:64` `torch.save` 成 `.pt`）；训练时 `dataset.py:328` 命中缓存则只放 1 帧占位、把缓存 embed 塞进 `multi_modal_data`，rollout 端 `use_cached_embeds` 跳过重复视觉编码（`vllm_rollout_spmd.py:227`）。号称 **2.1× 加速**。
+
+长视频 RL 的瓶颈是单条样本的视觉 token 极长（256 帧 × 257 ≈ 6.6 万 token，3600 帧时达 256K），单卡放不下也算不动。MR-SP 用 **Ulysses 序列并行**把这条长序列沿 token 维切到 SP 组的多张卡上，每卡只算 `1/SP` 的序列长度。longvila 脚本设 `ulysses_size=4`（`examples/new_supports/longvila_7b_video_grpo.sh:13`；`config.yaml` 默认 1，即关闭）。
+
+#### (1) 序列怎么拼（切片前）
+actor 前向先在 `dp_actor.py:399-407` 把三段拼成完整多模态序列：
+```
+input_embeds = embed_tokens(input_ids)                                   # 文本 token → embed
+multi_modal_embeds = cat([ 文本前缀 , video_embeds , response ], dim=1)   # dp_actor.py:404
+```
+同时构造 `multi_modal_labels` 标记每个位置类型（`dp_actor.py:409-411`）：`IGNORE_INDEX(-100)`=视频 embed、`1`=文本、`-1`=padding。这个 label 是后面切片定位视频段的依据。
+
+#### (2) 按"视频 token 段"切片（`prepare_inputs_for_sp_mm`，`dp_actor.py:115-198`）
+关键设计：**只把视频 token 那一段均分到各 rank，文本前缀和 response 不切**。
+
+- 视频 token 总数 `video_token_num = (labels==IGNORE_INDEX).sum()`（`:118`），每 rank 分得 `sp_middle_rank_len = video_token_num // sp_size`（`:145`）。
+- 三类 rank 各取不同切片（`:149-185`）：
+  - **rank 0（头）**：`[0 : video_first + sp_middle_rank_len]` —— 系统提示/文本前缀 + 第 1/SP 段视频；
+  - **中间 rank**：`[video_first + len·rank : video_first + len·(rank+1)]` —— **只含自己那 1/SP 段视频 token**；
+  - **最后 rank（尾）**：vila 模型取 `[-(sp_middle_rank_len + response_length) : ]` —— 最后 1/SP 段视频 **+ 完整 response**（`:162-166`，故 response 始终落在末 rank，便于后面只在该 rank 算 log_prob）。
+- **position_ids 先全局生成再切片**（`:126-133`）：用"距首个非 padding 位的相对偏移"算出全局 position_ids，再按上面区间切——保证每 rank 拿到的是它在**原始全序列**里的真实位置，注意力位置编码不串味。
+- **左 padding 对齐**（`:187-196`）：各 rank 切片长度不等（头/尾带文本与 response、长于中间 rank），统一左 pad 到 `output_length = max(input_text_length, response_length) + sp_middle_rank_len`（`:146`），padding 段 label=-1、attention_mask=False、position_ids=-1，不参与计算。
+
+> 另有 `input_utils.py` 提供更细的切分原语：`extract_local_from_list`（`:26-30`，`divmod` 余数均摊的负载均衡切分）与 zigzag 变体（`:33-44`，供 Ring attention 用，使每 rank 同时拿序列首尾块、均衡因果掩码下的计算量）。
+
+#### (3) Ulysses 注意力：序列切片下如何算"全局注意力"
+切片后每 rank 只有 `seq/SP` 个 token 但持有**全部注意力头**，无法直接算需要全序列 K/V 的注意力。Ulysses 用 **all-to-all 转置**解决（`all_to_all.py:all_to_all_4D`，`monkey_patch.py` 把 HF 的 `_flash_attention_forward` 替换成 `UlyssesAttention`，`:230`）：
+1. 进 attention 前 all-to-all：`(bs, seq/SP, head, dim) → (bs, seq, head/SP, dim)`（`ulysses_attn.py:158`）——换成"持有全序列、但只算 1/SP 的头"；
+2. 每 rank 用 `flash_attn_varlen_func` 在**完整序列**上算自己那批头的注意力；
+3. 再 all-to-all 转置回 `(bs, seq/SP, head, dim)`。
+GQA 下若 `ulysses_size > num_kv_heads`，先 `expandKV` 把 KV 头复制 `sp//kv` 份再切（`ulysses_attn.py:163-165`），反向时按 query group 求和回收梯度（`all_to_all.py:76-98`）。
+
+#### (4) 算完再拼回（gather）
+前向输出 logits 后，**只在持有 response 的末 rank 段**算局部 `log_probs`（`dp_actor.py:437-438`），再 `gather_outputs_and_unpad(log_probs, gather_dim=1, unpad_dim=1)`（`:441`）跨 SP 组 all-gather 并去掉左 padding，最后切出 `[bsz, response_length]`（`:443`）。这样梯度回传时每 rank 只持有 `1/SP` 的激活，显存和算力都摊薄。
+
+#### (5) embedding 缓存（与 SP 正交的第二招）
+离线 `verl/utils/cache_video_embeds_vila.py`（`_embed_media_tokens:61` 算 embed、`:64` `torch.save` 成 `.pt`）；训练时 `dataset.py:328` 命中缓存则只放 1 帧占位、把缓存 embed 塞进 `multi_modal_data`，rollout 端 `use_cached_embeds` 跳过重复视觉编码（`vllm_rollout_spmd.py:227`）。SP 摊薄长序列计算 + 缓存免去重复视觉编码，合起来号称 **2.1× 加速**。
 
 ---
 
@@ -73,9 +107,9 @@ overall = 0.9*accuracy + 0.1*format                                             
 3. **SFT 监督的 CoT**（上一阶段）：`reasoning` 字段被包成 `<think>…</think><answer>B</answer>` 做交叉熵；RL 阶段不再用 `reasoning`，只用 `answer="B"` 当 GT。
 4. **RL rollout**：`vllm_rollout_spmd.py:217-231`，VILA 路径先把视频 embed 与文本拼成 `prompt_embeds`（≈256×257≈65792 视觉 token + 文本），vLLM 生成 **n=5** 条回答，每条形如 `<think>…cheetah…</think><answer>B</answer>`。
 5. **reward 打分**：`r1v.py:compute_score` 对每条算 `format(0/1)` 与 `accuracy`（抽 `<answer>` 字母与 "B" 比），`overall=0.9*acc+0.1*fmt` → 5 个标量 reward。
-6. **更新**：`compute_grpo_outcome_advantage` 对 5 个 reward 组内归一化成 advantage；actor 前向时长序列经 `prepare_inputs_for_sp_mm` 按 4 个 SP rank 切片（`dp_actor.py:413`），算 `log_probs` 后跨 SP 拼回，做 KL-正则 PPO-clip 梯度更新。
+6. **更新**：`compute_grpo_outcome_advantage` 对 5 个 reward 组内归一化成 advantage；actor 前向把 `cat(文本前缀, 256×257 视频 embed, response)` 这条 ~6.6 万 token 长序列经 `prepare_inputs_for_sp_mm`（`dp_actor.py:417`）沿**视频段**按 `ulysses_size=4` 切成 4 片——rank0=文本前缀+¼视频、中间 rank=各¼视频、rank3=末¼视频+完整 response，各片左 pad 对齐；Ulysses all-to-all 让每片在全序列上算 ¼ 的注意力头；末 rank 算出 `log_probs` 后 `gather_outputs_and_unpad` 跨 4 rank 拼回 `[bsz, response_length]`，再做 KL-正则 PPO-clip 梯度更新。
 
-**张量流转**：`视频 mp4 → [256, hidden] cached embed → cat(文本embed, video_embed, response) → SP 切片 [4×local_len] → logits → log_probs → reward 标量×5 → GRPO advantage → 梯度`。
+**张量流转**：`视频 mp4 → [256, hidden] cached embed → cat(文本embed, video_embed, response) ≈6.6万token → SP 沿视频段切 4 片(各≈len/4，左pad到 max(text,resp)+视频段/4) → 各 rank Ulysses all-to-all 算全序列×¼头注意力 → logits → 末rank log_probs → gather+unpad 拼回 [bsz, resp_len] → reward 标量×5 → GRPO advantage → 梯度`。
 
 ---
 
