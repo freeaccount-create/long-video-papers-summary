@@ -45,6 +45,13 @@
 - 路由检索 `retrieve_from_episodic/semantic/visual`（:274-406），结果累积进 `retrieved_items`+`round_history`，去重（`retrieved_set`）。视觉支持文本关键词或 `DAY X HH:MM:SS - DAY Y ...` 时间范围抽帧（`visual/memory.py:319-333`）。
 - 各源机制：episodic = HippoRAG 多粒度候选 + LLM `multiscale_filter` 二次排序（`episodic/memory.py:340-423`）；semantic = embedding 取 top-相似三元组做 personalization，再在实体图上跑 **Personalized PageRank**（damping 0.85）按 subj+obj PPR 分排序（`semantic/memory.py:243-341`）；visual = VLM2Vec 跨模态余弦相似 top-k clip 抽帧（`visual/memory.py:344-409`）。
 
+  **Semantic 检索 = 语义相似播种 + Personalized PageRank（精确五步，`semantic/memory.py:280-336`）**——不是直接用 embedding 相似度返回，而是把相似度只当"种子"，靠图结构重排：
+  1. **query 编码 + 余弦相似**：`F.cosine_similarity(query, self.embeddings)` 算 query 与全部已索引三元组 embedding 的相似度（:280-281）。
+  2. **取 top-k 种子三元组**：`torch.topk(similarities, top_k)`（:286），从命中三元组里抽出其 subject/object 实体，组成 personalization 实体集（:290-296）。
+  3. **构造 reset 向量**：对实体图每个顶点，命中种子实体置 `1/|种子集|`、其余置 0（:307-311）——即 PPR 的"个性化重启分布"只落在与 query 语义相关的实体上。
+  4. **跑 Personalized PageRank**：`graph.personalized_pagerank(directed=False, damping=0.85, reset=reset, implementation='prpack')`（:313-318），把种子实体的相关性沿知识图谱的边扩散到邻接实体（如 `红箱子→储藏室→整理习惯`）。
+  5. **三元组打分 + 取 top-k**：每条三元组得分 = `ppr[subject] + ppr[object]`（:323-329），按此排序取前 top_k（:331-336）。若没抽到任何实体则回退为纯 embedding 相似度 top-k（:298-303）。意义：embedding 只负责"找入口"，PPR 负责"顺着关系网把间接相关的习惯/归属知识也召回"，这是 semantic 记忆能回答"为什么/谁的"类问题的关键。
+
 **Stage 3 — 响应生成（`memory/memory.py:556-593`）**
 - agent 判 `answer` 或达上限后退出循环，渲染 `qa`/`qa_egolife` 提示（`templates/qa_egolife.py`），把累积文本三元组/caption + 视觉帧（`_render_retrieved_items_for_qa`，:248-272，文本→text、视觉→image）拼成多模态消息，调 respond LLM 输出单字母选项；`eval.py:193` 判分。
 

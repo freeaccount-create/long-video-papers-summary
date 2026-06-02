@@ -73,6 +73,11 @@
 4. **多模态分词**：`PLMTokenizer.__call__`（`tokenizer.py:209-279`）。每帧视觉 token 数 `(448/14/pooling_ratio)^2`（stage-3 `pooling_ratio=2` ⇒ 每帧 `(32/2)^2=256`）；`conversation.py:72-76` 在文本插入对应数量 `<|image|>`；输出 `text_ids`、`image_pos`、`response_pos`（只标 assistant 回答）。
 5. **collate**：`MllmPaddingCollator`（`data_collators.py:67-132`）pad，`label_ids` 仅对 `response_pos` 位置有效（**仅对回答算 loss**）。
 6. **前向**：`LMTransformer.forward`（`transformer.py:139-183`）：`h=tok_embeddings(x)` → `h_img=vision_model(images, strip_cls_token=True)` → `h_img=vision_projector(h_img)` → `stitch_images_into_text` 用 `image_pos` 把视觉特征写回 `<|image|>` 槽位 → 过 LLM → `output(norm(h))`。
+
+   **`stitch_images_into_text` 的 gather→scatter 回填（精确三步，`transformer.py:206-232`）**：视觉特征 `h_img` 与文本 embedding `h_tok` 是两个独立张量，要把前者**精确写进**后者预留的 `<|image|>` 槽位：
+   - *槽位定位（sentinel 设计）*：collator 先把 `image_pos_index` 整张填 `-1` 哨兵（`data_collators.py:93`），再对每个 `<|image|>` 位置写入其序号 `arange`（`:104-105`）。前向时 `img_indices_B, img_indices_L = torch.where(image_pos_index >= 0)`（`transformer.py:225`）一次性取出 batch 内所有图像槽位的 (行,列) 坐标。
+   - *源特征 gather*：`cumulative_indices = accumulate(num_chunks)`（:215）算各样本的 chunk 边界，`non_text_indices`（:217-224）挑出所有非纯文本样本的 chunk 平铺索引——即真正持有视觉特征的那些 `h_img` 行。
+   - *截断保护 + scatter 写回*：`valid_index_filter = img_indices_L < h_tok.shape[1]`（:226）过滤掉因 `max_seqlen` 截断而越界的槽位；最后一句 `h_tok[img_indices_B, img_indices_L] = h_img[non_text_indices].flatten(0,1)[valid_index_filter]`（:229-231）做**散射赋值**：把 gather 出的视觉特征按坐标精确覆盖到文本张量的图像槽位上。整个过程无拷贝循环、纯张量索引，是"文本与视觉在同一序列里对齐"的落地实现。
 7. **loss**：`logits=logits[loss_mask]; target=target[loss_mask]` 再 `cross_entropy`（`transformer.py:178-181`）。RTLoc 则相反——caption 入文本、`start/end_frame` 作生成目标。
 
 ---

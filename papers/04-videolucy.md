@@ -43,7 +43,10 @@
 1. **agent 选时间窗 + 下达指令**：`video_question_get_single_related_time_with_coarse_memory`（`llm_roles.py:173`）选出**单个**最相关时间段，并给出"让 caption 模型重点描述什么"的 `Instruction`，排除已探索段（`excluded_time_periods`）。
 2. **细记忆抽取**（Qwen2.5-VL 再跑，高分辨率 `fine_memory_max_pixels=512*28*28`）：`split="entire"`（整窗一段）与 `split="divided"`（`fine_sampling_fps=2`、子段 ~10s）（`vlm_roles.py:115-198`）。
 3. **超细层触发**：选中窗口长度恰为 `minimal_duration=10`s → `is_super_fine=True`，改用每 1s 一段做帧级精描，存入 `super_fine_memory_history`（`demo.py:206-216`）。
-4. **带细记忆再作答**：`video_question_answer_with_coarse_and_fine_memory`（`llm_roles.py:135`）把 粗+细(entire/divided)+超细记忆**按时间排序嵌套拼接**（`LLMs/utils.py:126-158`，排序在 126 行）。`Confidence==True` 返回。
+4. **带细记忆再作答**：`video_question_answer_with_coarse_and_fine_memory`（`llm_roles.py:135`）把 粗+细(entire/divided)+超细记忆拼成**三级缩进的嵌套记忆树 prompt**（`answer_with_coarse_and_fine_memory_prompt`，`LLMs/utils.py:100-179`），`Confidence==True` 返回。其构造精确为：
+   - **去重-替换**：凡时间段已被某条 entire 细记忆覆盖的粗记忆，从列表剔除（`coarse_memory_copy_saved`，:116-119），再把 entire 细记忆并入 `total_memories`（:123-124）——即"被细化的粗段由细记忆顶替，避免同段重复描述"。
+   - **按时间排序**：`sorted(total_memories, key=lambda x: x['time_period'][0])`（:126），保证 prompt 内时间单调。
+   - **三级缩进树**（:129-158）：① 顶层 `"N. Time Period: from a s to b s. Content Description: ..."`（粗/细段）；② 若该段有 divided 子段，紧跟一句 `"Note that for the video within this time period ... more detailed description:"` 连接词，再以 `"    (j). ..."` 缩进列子段（细级，:139-145）；③ 若某子段又是 super-fine，再下钻一层，以 `"    [k]. Time Stamp: t s. ..."` 列**帧级**精描（:152-157）。这棵"粗→细→超细"自包含的缩进树让 LLM 在一个 prompt 里同时看到全局脉络与命中段的逐帧细节。
 
 **Phase 4 — 强制作答**：5 轮仍不自信 → `must_answer`（`llm_roles.py:154`）强制给最优答案。
 

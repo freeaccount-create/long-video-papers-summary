@@ -51,7 +51,10 @@ modifier_vector  = W_head[fine_idx] - coarse_prototype # ma.py:65 / mr.py:42
   modifier_vectors     = mapping_function(modifier_text_embeds)  # ma.py:135
   fine_grained_head.weight.data[i] += modifier_vectors[i]        # ma.py:137  → W_sub = W_coarse + v_modifier
   ```
-- **MR / Modifier Retrieval**：用 CLIP 文本相似度（`sim = α·sim_modifier + β·sim_fine, α=β=0.5`，`mr.py:59-61`）从字典检索最相似的已知 modifier 向量直接加上（`mr.py:64-68`）。
+- **MR / Modifier Retrieval（贪心一对一二分匹配，`mr.py:51-71`）**：不是各子类独立取 argmax，而是**全局贪心二分匹配**，保证字典里每个已知 modifier 至多被用一次：
+  1. 算双通道相似度矩阵 `sim_modifier = target_modifier_embeds @ modifier_embeds.T`、`sim_fine = target_fine_embeds @ fine_embeds.T`，加权 `sim_total = α·sim_modifier + β·sim_fine`（`α=β=0.5`，:59-61）——既比 modifier 文本（"into"）也比完整细类名（"Dropping … into …"）。
+  2. 循环 `num_fine_grained_class` 次（:63-71）：每轮取整个矩阵的**全局最大值** `sim_total.max()`，定位其 `(目标子类 i, 字典条目 j)`（:64-65），把字典第 j 个 modifier 向量加到第 i 个子 head（`fine_grained_head.weight.data[i] += modifier_vectors[j]`，:68）。
+  3. 随即把**第 i 行与第 j 列全部置 `-inf`**（:70-71）形成互斥，使该子类与该字典条目都不再参与后续轮——即标准贪心最大权二分匹配，避免多个子类抢同一个 modifier。
 - **VLM baseline**：不编辑权重，先 base model 判粗类，再用 CLIP image-text 相似度选细类（`vlm.py:23-26,61-71`）。
 
 **(d) 评测/打分**（`editor.py:121-159`）：视频特征过 `forward_features`（mean-pool 得 `x∈R^D`，`mvd.py:382-407`）→ `NewHead` 输出全部 logits → softmax → **把原粗类索引置 0 并重归一化**（:137-138），多 crop 聚合（`aggregate_groups`，:86-118）取 argmax。Locality = 编辑后/前在 unrelated_set 上准确率之比（:187）。
