@@ -22,9 +22,12 @@
 
 **6 类视频 → demo 键映射**（`eval_api.py:26`，判分分发 `:159-179`）：Number=`hrd`、Circle=`grid`、Cup=`cup`、File=`file_sys`、Card=`card`、Chip=`chip`。
 
-**3 级推理 → 6 个 `dim`**（每类各 40 条/dim；分组见 `show_results.py:44`）：
+**3 级推理 → 报告口径 6 个 `dim`**（分组见 `show_results.py:18-46`）：
 - **L1 Recall（回忆可见操作）**：`order_operation`、`counting_operation`
-- **L2 Infer（推断不可见 latent state）**：`order_state`(hrd/cup/grid/card) 与 `counting_state`(file_sys/chip) 两个互斥维度——`show_results.py:44` 把二者统一归入报告口径的 `infer_state`、`comparison_state`
+- **L2 Infer（推断不可见 latent state）**：两个**独立**报告维度——
+  - `infer_state`：由样本原始 `dim ∈ {order_state, counting_state}` **合并**而来。`show_results.py:44` 一行 `dim = "infer_state" if r['dim'] in ["order_state","counting_state"] else r['dim']` 把这两类原始维度统一改写成 `infer_state` 计分（`order_state` 用于 hrd/cup/grid/card，`counting_state` 用于 file_sys/chip）。
+  - `comparison_state`：**第 6 个独立维度，并非 order/counting_state 的派生或乘积**。`show_results.py:44` 的三元式 `else r['dim']` 分支让 `dim=='comparison_state'` 的样本**原样透传**进 `comparison_state` 桶——它来自专门标注为"比较 latent 状态量"的题，与 infer_state 互不重叠。
+  - （`summary` 初始化 `:18-20` 显式列出全部 6 个报告桶：`order_operation / counting_operation / infer_state / comparison_state / prediction_state / prediction_operation`，证实 comparison_state 是平级的独立列而非合并产物。）
 - **L3 Predict（超出视频的预测）**：`prediction_state`、`prediction_operation`
 
 **latent state 编码**：每条样本带 `states` 数组（初始状态及每步操作后的完整棋盘快照，length=`num_operation+1`），`moves` 记操作序列，`visible_time ∈ {start,end}` 指明 latent state（初/末态）哪端在视频中可见、另一端被蓝色遮罩。判分取"可见端"为已知起点：`states[0 if visible_time=='end' else -1]`（`eval_api.py:161`）。`hrd` 棋盘为 3×3/4×4 矩阵，`0`=空格；答案行 `a/b/c` 映射到矩阵 `a→最底行`（`eval_utils.py:489-500`）。

@@ -33,7 +33,10 @@ TVG（Charades）：`{"description","timestamps":[s,e],"video"}`（`data_rl.py:5
 **范式 = "Thinking Once, Answering Twice"，GRPO 训练**，rl_mode=`answer_twice_rl`。base = Qwen2.5-VL-7B / Qwen3-VL-8B。
 
 - **System prompt 强制模板**（`data_rl.py:20-27`）：`\boxed{初答}<think>推理</think>\boxed{复核答}`；若无法直答则首框输出 `\boxed{Let's analyze the problem step by step.}`。
-- **采样**：每 prompt 用 vLLM 生成 `G=16` 条 completion（`grpo_vllm_trainer_qwen2_5_vl.py:1209-1217`）。
+- **采样**：每 prompt 出 `G=16` 条 completion，但**不是靠 `SamplingParams(n=16)`**。实现是两段配合：
+  1. **数据侧把 prompt 复制 16 份**：`_get_train_sampler` 返回 `RepeatSampler(mini_repeat_count=self.num_generations)`（`:749-754`），即同一条 prompt 在一个 batch 内被连续重复 `num_generations=16` 次进入 dataloader。
+  2. **vLLM colocate 每卡只生成 1 条**：真正的生成在 vLLM 路径 `:1125-1169`，`generation_kwargs["n"]=1`，源码注释直言 `# vLLM on each GPU generates only 1 in colocate mode`（`:1126`）。16 份重复 prompt 各自 n=1 生成，合起来得 16 条采样。
+  （注：`:1205-1217` 的 `unwrapped_model.generate(**prompt_inputs, generation_config=...)` 是**无 vLLM 时的 transformers 后备路径**，并非默认 vLLM 生成路径，不要据此理解 G 的来源。）
 - **奖励**（3 函数，权重 `0.9/1.1/1`，`reward.py:167-174`）：
   1. `accuracy_boxed1`（权 0.9）：取**第一个** `\boxed`（`<think>` 之前）判分（`reward.py:91-118`）；
   2. `accuracy_boxed2`（权 1.1）：取**第二个** `\boxed`（`</think>` 之后）判分（`reward.py:121-153`）；含 **fallback 奖励**：复核答正确（reward>0.7）且初答是 `Let's analyze...`（诚实选择需思考）时额外加 `0.3/1.1`，惩戒"虚假初猜"（`reward.py:144-147`）；

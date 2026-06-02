@@ -47,6 +47,7 @@
 - 总目标 `L=L_spatial+λ·L_motion`：像素重建 `λ=1`，特征(CLIP)重建 `λ=0.25`。
 
 **(f) 运动目标技巧**：
+- *运动目标的精确构造（归一化时间差分，§3.2 + §11.2）*：CoTracker3 直接输出的是各 query 点在后续帧的**绝对 2D 坐标** `(x,y)`，构成轨迹张量 `M ∈ R^{(T/t)×(H/p)×(W/p)×2}`。但 TrackMAE **不**回归绝对坐标，而分两步转成回归目标 `m_i`：① **时间差分（→位移）**沿时间维取相邻 motion token 的位置变化，使目标绑定"运动量"而非"画面位置"（§3.2 "predict the displacement ... instead of absolute trajectory values"）；② **归一化**——论文明确实际用的是 **normalized temporal differences**（§11.2 原文 "we use the normalized temporal differences ... as the target, rather than absolute values"），把不同视频/分辨率下尺度迥异的位移拉到统一尺度。这是 `L_motion` 数值稳定、并能与空间损失按固定 `λ` 线性加权而不被某支梯度量纲淹没的前提（也解释 Tab.10c 加轨迹噪声仅掉 0.5% 的鲁棒性）。*注*：论文仅文字声明"归一化时间差分"，**未给闭式公式**（按帧尺寸还是按轨迹统计量归一未明示），此处不臆造除数。
 - *效率*：CoTracker3 每隔一帧喂入，输出时间维 size=2 与 tubelet 对齐。
 - *Upsampling trick*：每 patch 只跟 1 点（稀疏），假设 patch 内邻近像素运动相近，空间插值上采样 `υ` 倍（等效每 patch 跟 `υ²` 点），主实验 `υ=2`（14×14→28×28），零额外跟踪开销即提分。
 

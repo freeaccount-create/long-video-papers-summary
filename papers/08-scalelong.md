@@ -41,7 +41,7 @@ HF `questions.jsonl` 实测 **269 行 = 269 个视频**，每行 `{video_id: [8 
 ## 3. 完整评测流程（全部在 `inference.py`）
 
 1. **载题 + 构造选择题**：`load_questions_from_jsonl`(:194) 逐行读，`convert_to_multiple_choice`(:160) 把 `distractors+answer` **`random.shuffle`**(:163)，`chr(ord('a')+i)` 生成 a/b/c/d(:167)，记录 `correct_option` 字母(:187)。题面 `format_question`(:156) 拼 `问题？\na. ...\nb. ...`（选项一律小写字母） 并追加固定指令 `MULTI_CHOICE_PROMPT="Answer with the option's letter from the given choices directly."`。
-2. **抽帧**：各模型自带，如 internvl2_5 `load_video`(:151) decord 读全片、`get_index`(:133) 在 `[0,max_frame]` **均匀取 num_segments 帧**（默认 128，脚本设 32）。抽帧与题目 `answer_location` 无关——模型须自己在长视频里定位。
+2. **抽帧**：各模型自带，如 internvl2_5 `load_video`(:151) decord 读全片、`get_index`(:133-148) 在 `[start_idx,end_idx]` **均匀取 num_segments 帧**。其签名默认 `num_segments=32`（`internvl2_5.py:133`，非 128；脚本沿用 32）。采样点是**每段的中心**而非段首——`seg_size=(end_idx-start_idx)/num_segments`，第 i 帧索引 `int(start_idx + seg_size/2 + round(seg_size·i))`（`:141-146`），`seg_size/2` 偏置确保取段中点、避免系统性偏向片段开头。无 `bound` 时 `start/end=∓100000` 即退化为全片均匀采样。抽帧与题目 `answer_location` 无关——模型须自己在长视频里定位。
 3. **构造 prompt**：`process_video_questions`(:297) 用 `ffprobe` 取真实时长，把全局 `PROMPT`（`"...divided into {frame_num} evenly spaced frames spanning {duration} seconds..."`）拼到题面前；internvl 封装再加 `Frame1: <image>\nFrame2: ...` 前缀（`internvl2_5.py:241`）。
 4. **模型作答**：`model.generate_video_only(...)`(:337)，贪心 `do_sample=False, max_new_tokens=1024`。
 5. **答案抽取 + 判分**：`check_answer`(:227)——**纯正则/规则，无 LLM**：优先匹配 `<answer>: X`(:236)；否则找 `(a)`/` a `/`a.` 候选字母取**最后一个**(:241-245)；无输出则**随机猜**(:231,:245)；返回 `(pred==correct_option, pred)`。
