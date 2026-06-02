@@ -35,7 +35,8 @@
 ## 3. 完整方法流程
 
 **核心干预原语 = Attention Knockout**（`causal_intervention_tools.py`）：
-- `precompute_attention_masks()`（:6-34）先建因果下三角 mask，再对指定 `(query_range, key_range)` 把对应注意力 entry 置 0，转成 `(1-mask)*finfo.min` 的加性 mask——即"切断"这些 token 对之间的注意力。
+- `precompute_attention_masks()`（:6-34）的精确五步：① `torch.tril(ones(N,N))` 建因果下三角基底 mask（:13），允许位看到自身及之前；② 对每个待切断的 `(query_range, key_range)` 对，用高级索引 `attn_mask[q_idx[:,None], s_idx[None,:]] = 0`（:25-29）把这些"query→key" entry 从 1 翻成 0——**精准抠掉指定 token 对的注意力，而保留其余因果连接**；③ `attn_mask.repeat(1,num_heads,1,1)`（:31）把同一 mask 广播到全部注意力头（所有头同等切断）；④ `(1.0 - attn_mask) * torch.finfo(dtype).min`（:32）把"保留=1/切断=0"转成加性 mask：保留处加 0、切断处加 `dtype` 最小值（≈−∞），经 softmax 后该 entry 概率→0；⑤ `opposite=True` 时（:15,:29）整体取反，用于"只保留某通路、切掉其余"的有效通路实验。这种加性 mask 直接加到 attention logits 上，是一种**无需改权重的因果干预**。
+- 自回归续写时，把预计算 mask 的**末行裁成 `(1, key_len)`** 复用到后续每个新 token（:111-120），保证生成阶段干预持续生效。
 - `_set_block_attn_hooks()`（:103-147）用 `functools.wraps` 包裹每个 `layer.self_attn.forward`，仅对 `layerlist` 指定层注入 mask；自回归时把 mask 末行裁成 `(1, key_len)` 续用（:114-120）。
 - `trace_with_attn_block()`（:54-68）跑一次 forward，返回被干预后 **answer / gt token 的 softmax 概率**。冲击量 = `(new-base)*100/base`（`information_flow_analysis.py:384-388`）。
 

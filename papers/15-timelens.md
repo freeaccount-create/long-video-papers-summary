@@ -49,7 +49,15 @@
 **(b) Thinking-free RLVR + IoU reward**：
 - **thinking-free**：GRPO 仅用 `--reward_funcs tiou`（`run_grpo_qwen3_8b.sh:113`），**不启用** format（`<think>...</think>`）奖励；prompt 直接要求输出 `"The event happens in <start> - <end> seconds"`（`grounding.py:13-16`），无思维链。`beta=0.0`（`params.py:113`）→ 无 KL 项、不加载 reference model（`grpo_trainer_qwenvl.py:617,648,1536-1537`）。
 - **IoU reward**：`tiou_reward`（`reward_funcs.py:19-48`）从 completion 提取答案 → `extract_time` 解析时间段 → 与 GT span 算时序 IoU 作 reward。IoU 定义 `max(min1-max0,0)/(max1-min0)`（`parser.py:21-30`）；非法/解析失败/start≥end → 0（`reward_funcs.py:36-41`）。
-- **GRPO 更新**：每 prompt 采样 `num_generations=8`（`params.py:124`），组内归一化优势 `A = r - mean_group`（脚本显式传 `--scale_rewards False`，故不除 std；TRL 默认值本为 True，`grpo_trainer:1380-1389`）；PPO 式 clip 目标、`loss_type=bnpo`（:1527-1543）。lr=1e-6、constant、`max_steps=100`、freeze vision tower（`run_grpo:97-123`）。
+- **GRPO 更新**：每 prompt 采样 `num_generations=8`（`params.py:124`），组内归一化优势 `A = r - mean_group`（脚本显式传 `--scale_rewards False`，故不除 std；TRL 默认值本为 True，`grpo_trainer:1380-1389`）；PPO 式 clip 目标、`loss_type=bnpo`。
+- **per-token 目标与 bnpo 归一（精确公式，`grpo_trainer_qwenvl.py:1523-1546`）**：
+  - 重要性比 `coef_1 = exp(logπ_θ − logπ_old)`（:1526），裁剪 `coef_2 = clip(coef_1, 1−ε_low, 1+ε_high)`（:1527，`epsilon` 见 `:588-589`），`per_token_loss = −min(coef_1·A, coef_2·A)`（:1533-1535）即标准 PPO 双侧裁剪；因 `beta=0` 跳过 `+β·KL`（:1536-1537）。
+  - **三种 loss_type 的差别只在分母**（:1539-1546），TimeLens 取 `bnpo`：
+    - `grpo`：`((per_token_loss·mask).sum(-1) / mask.sum(-1)).mean()` —— **先每条序列内按自身 token 数平均，再对序列求平均**（每条等权，长序列每 token 权重小）。
+    - `bnpo`（本文用）：`(per_token_loss·mask).sum() / mask.sum()` —— **全 batch 所有 completion token 拉平后整体除以总有效 token 数**，即每个 token 等权、长序列自然占更大比重，无"先序列内平均"这一步。
+    - `dr_grpo`：`.sum() / (batch_size · max_completion_length)` —— 固定分母（去长度偏置）。
+  - 选 bnpo 的效果：避免 grpo 把每条序列强行等权导致短答案 token 被过度放大，对"输出就一句 `start - end seconds`"的定长格式更稳。
+- lr=1e-6、constant、`max_steps=100`、freeze vision tower（`run_grpo:97-123`）。
 
 **(c) 数据重标/难度采样**（`README.md:327-380` 三阶段）：① 在 30K 采样上 SFT；② 用 SFT 模型对全量 100K 离线推理、对每条算 IoU 作难度（`infer_..._filter_data.py:150-164`，写回 `pred/answer/iou`）；③ GRPO 从 SFT ckpt 起训，按 IoU 做 Gaussian 难度采样（`fixed_gaussian_sampling=True, mean=0.05, std=0.2`，`run_grpo:84-87`；实现 `grounding.py:224-247`，按时长分桶 + 按 IoU 高斯加权采样做逆密度均衡）。
 

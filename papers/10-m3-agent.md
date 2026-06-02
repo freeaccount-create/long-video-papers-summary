@@ -54,6 +54,12 @@
 - system prompt 要求每轮输出 `Action: [Answer]/[Search]` + `Content:`，可 `<think>` 推理（`enable_thinking=True`）。
 - `consumer`（L100-132）解析：`[Answer]`→终止；`[Search]`→调 `retrieve.search` 检索记忆，结果作 `user` 消息 "Searched knowledge: ..." 追加进对话。
 - 检索 `retrieve.py:search`（L237-275，底层 `retrieve_from_videograph` L76-136）：query 经 `back_translate`（把 `character_i` 展开成所有 face/voice 变体）→ text-embedding-3-large 编码 → `search_text_nodes` 算 clip 级相似度 → 取 topk clip 的记忆，`translate` 再把实体 ID 回译。两种模式：`mem_wise`（查"character id↔姓名"映射）与 clip-wise（普通事件检索）。最后一轮强制 `[Answer]`。答案用 GPT-4o evaluator 判对错。
+
+  **检索核心 = 两级 max 聚合（精确计算）**：
+  1. **query 展开**（`back_translate` L50-73）：一条 query 里若含 `character_i`，按 `character_mappings` 笛卡尔展开成所有 `face_x/voice_y` 变体 query（一个角色对应多张脸/多段声纹时，query 数成倍增长），保证任一身份表述都能命中。展开后的多条 query 各自编码成 `embedding`，构成 `query_embeddings∈R^{Q×E×d}`（Q 条 query、每条 E 个 embedding）。
+  2. **第一级 max：embedding→节点分**（`search_text_nodes` `videograph.py:554-612`）：每个 text node 自身存多个 embedding。对全部 `cosine_similarity(query, node)` 算出 `similarities∈R^{Q×N×E'}`（:594-596），再 `np.max(axis=(0,2))`（:608）**沿 query 维与 embedding 维同时取最大**，把每个节点压成一个标量分——即"任一 query 的任一 embedding 与该节点任一 embedding 最相似"的程度（mode='max'）。
+  3. **第二级 max：节点→clip 分**（`retrieve.py:110-127`）：按节点 `metadata['timestamp']`(=clip_id) 把节点分归桶，`clip_score = max(scores)` 取该 clip 内最高分节点作 clip 分。
+  4. **因果裁剪 + topk**（:130-135）：`before_clip` 限定只保留 `clip_id <= before_clip` 且 `score >= threshold` 的 clip，按分排序取前 topk——这是"只能检索当前及之前记忆"的硬约束实现处。
 - **训练**（外部 repo + 论文 §4.4）：control 策略从基座 Qwen3 用 **DAPO** 训练；reward = GPT-4o 评测对=1/错=0（式(1)）；组内 G 条轨迹做 group-normalized advantage `(R_i-mean)/std`（式(2)），只对生成 token 算 loss，DAPO 带 clip-higher 等。论文 Table 7 证实 DAPO 全面优于 GRPO 且收益随规模放大（32b +10.0%/8.0%/9.3%）。
 
 ---
