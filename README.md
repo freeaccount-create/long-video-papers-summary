@@ -1,6 +1,6 @@
 # Long-Video / Video-LLM Papers — 深度方法解析 · NeurIPS 2025 · ICLR 2026 · CVPR 2026 · AAAI 2026
 
-21 篇长视频理解 / Video-LLM / 视频生成评测 论文/项目的中文**深度方法解析**。与一般综述不同，每篇都尽量**逐个深入源码**，描述真实方法过程——以**一条真实训练/使用数据样本**走完整个训练或方法流程，并给出 `file:line` 级引用。
+19 篇长视频理解 / Video-LLM 论文/项目的中文**深度方法解析**。与一般综述不同，每篇都尽量**逐个深入源码**，描述真实方法过程——以**一条真实训练/使用数据样本**走完整个训练或方法流程，并给出 `file:line` 级引用。
 
 每篇文档（`papers/NN-*.md`）固定包含：
 1. **源码可得性 / 结构** — 官方仓库、克隆情况、关键目录；
@@ -39,8 +39,6 @@
 | 17 | **TrackMAE** — 运动感知视频掩码自编码器 | CVPR 2026 | 自监督 | ⚠️ 占位 | [papers/17](papers/17-trackmae.md) | [src/17](src/17-trackmae/) |
 | 18 | **IPFormer-VideoLLM** — 多镜头场景实例提示视频理解 | — | 模型/数据 | ❌ 无源码 | [papers/18](papers/18-ipformer-videollm.md) | [src/18](src/18-ipformer-videollm/) |
 | 19 | **APVR** — 免训练小时级长视频双级检索 | AAAI 2026 | Training-free | ❌ 无源码 | [papers/19](papers/19-apvr.md) | [src/19](src/19-apvr/) |
-| 20 | **DirectorBench** — 分钟级视频生成多智能体诊断式评测 | arXiv 2026 | Benchmark/评测 | ✅ | [papers/20](papers/20-directorbench.md) | [src/20](src/20-directorbench/) |
-| 21 | **ScriptAgent** — 对白→电影级长视频智能体框架(含评测) | arXiv 2026 | 生成/Agent/评测 | ✅ | [papers/21](papers/21-scriptagent.md) | [src/21](src/21-scriptagent/) |
 
 源码列：✅ 官方源码已镜像；⚠️ 官方仓库仅占位（实现未发布）；❌ 无公开源码（说明文档基于论文/公式）。
 
